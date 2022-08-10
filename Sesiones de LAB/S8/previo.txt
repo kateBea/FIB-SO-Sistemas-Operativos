@@ -1,0 +1,59 @@
+1. Crea una pipe con nombre mediante el comando mknod. A continuación lanza un proceso que ejecute el 
+programa ‘cat’ redireccionando su salida estándar hacia la pipe que acabas de crear. En una shell 
+diferente lanza otro proceso que ejecute también el programa ‘cat’, pero ahora redireccionando 
+su entrada estándar hacia la pipe que acabas de crear. Introduce datos por teclado, en la primera Shell, 
+y pulsa ^D para indicar el fin. Anota en el fichero “previo.txt” los comandos que has ejecutado. 
+
+    - mknod myPipe p    //crea pipe con nombre (myPipe) 
+      cat < myPipe      //redirecciona entrada std de terminal 1 a myPipe   (dup2(myPipe, 1))
+      cat > myPipe      //redirecciona slida std de terminal 2 a myPipe     (dup2(myPipe, 0))
+
+2. ¿Es posible comunicar los dos comandos ‘cat’ desde dos terminales diferentes a través de una pipe sin 
+nombre (por ejemplo, utilizando un pipeline de la shell visto en la sesión anterior)? ¿y desde el mismo
+terminal? Razona la respuesta en el fichero “previo.txt”. 
+
+    - No es posible. Las pipes sin nombre son buffers temporales que se comparten entre procesos emparentados,
+    es decir, entre procesos con parentesco directo o indirecto porque este buffer temporal se hereda en la creación
+    de procesos nuevos. Procesos creados en diferentes terminales no estarán en el mismo grupo de procesos (no hay parentesco)
+    por tanto no pueden comunicarse mediante la misma pipe sin nombre.
+
+
+3. Escribe en el fichero “previo.txt” el fragmento de código que deberíamos añadir a un programa cualquiera 
+para redireccionar su entrada estándar al extremo de escritura de una pipe sin nombre utilizando las llamadas
+al sistema close y dup. Imagina que el descriptor de fichero asociado al extremo de escritura de la pipe es el 4.
+
+    - close(0)  //cerramos entrada estándar
+      dup(4)    //duplicamos fd de la pipe (se usa el primer fd disponible que es 0)
+
+    este sería el código añadir asumiendo que el fd de entrada std del programa no se ha modificado aún i sigue siendo el 0
+
+4. En la página web de la asignatura (http://docencia.ac.upc.edu/FIB/grau/SO) tenéis el fichero S8.tar.gz 
+que contiene todos los ficheros fuente que utilizaréis en esta sesión. Créate un directorio en tu máquina, 
+copia en él el fichero S8.tar.gz y desempaquétalo (tar zxfv S8.tar.gz). 
+
+El fichero “socketMng.c” contiene unas funciones de gestión básica de sockets (creación, solicitud de conexión, 
+aceptación de conexión y cierre de dispositivos virtuales). Analiza en detalle el código de la función createSocket
+y serverConnection, y busca en el man el significado de las llamadas a sistema socket, bind, listen y accept. 
+Explica en el fichero “previo.txt” paso a paso lo que hacen estas dos funciones. 
+
+    -   a) socket: establece un flujo de comunicación bidireccional y retorna un entero que 
+        referencia a uno de los extremos del flujo, este entero es un file descriptor, el file descriptor es el
+        más pequeño no usado por el proceso
+
+        b) bind: asigna una dirección que especificamos a un socket creado mediante socket() con fd concreto. Es 
+        necesario antes de empezar a usar el socket para IPC.
+
+        c) listen: marca un socket para aceptar conexiones de este
+
+        d) accept: acepta una conexión a un socket
+
+    función createSocket:
+        - Crea un socket con con dominio AF_UNIX, es decir, que el socket se usa para IPC local, esto es comunicación de
+        procesos en la misma máquina. Al socket le asigna la dirección pasada como parámetro, si la llamda del binding resulta en error
+        se cierra el socket y se retorna de la función. Marca el socket para recibir conexiones de el, 10 como mucho en este caso. Si se llegasen
+        a establecer más conexiones de las que puede encolar el socket, el comprotamiento que definido por el protocolo establecido
+        al crear el socket, entonces el solicitante (client) recibiría un error o simplemente se ignoraría la conexión para poder ser
+        restablecida más tarde.
+
+    función serverConnection:
+        - Solicita conexión al socket con file descriptor que le pasamos como parámetro

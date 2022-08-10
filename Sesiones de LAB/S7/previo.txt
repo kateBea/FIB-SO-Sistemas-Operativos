@@ -1,0 +1,66 @@
+1. ¿Qué valor devuelve la llamada read después de pulsar el ^D?
+
+    - el valor que devuelve read() es el valor correspondiente a la cantidad
+    de bytes leídos de la entrada estándar. Cuando entramos un end-of-file (Ctrl + D),
+    read devuelve 0
+
+2. Crea un fichero con un editor de texto cualquiera y lanza el programa ./es1 asociando
+mediante la shell su entrada estándar a ese fichero. Apunta el comando utilizado en el fichero “previo.txt”.
+
+    - Comando: ./es1 > output
+
+3. ¿Cuál es el resultado? ¿Qué operación realiza el comando ‘grep es’?
+
+    - resultado:
+    -rwxrwxr-x 1 kate kate 16128 Apr 20 10:44 es1
+    -rw-r--r-- 1 kate kate  1127 Apr 23 07:18 es1.c
+    -rwxrwxr-x 1 kate kate 16280 Apr 20 10:44 es2
+    -rw-r--r-- 1 kate kate  1700 Feb  8  2021 es2.c
+    -rwxrwxr-x 1 kate kate 16128 Apr 20 10:44 es3
+    -rw-r--r-- 1 kate kate   943 Feb  8  2021 es3.c
+    -rwxrwxr-x 1 kate kate 16040 Apr 20 10:44 es4
+    -rw-r--r-- 1 kate kate  1206 Feb  8  2021 es4.c
+    -rwxrwxr-x 1 kate kate 15768 Apr 20 10:44 es5
+    -rw-r--r-- 1 kate kate    31 Feb  8  2021 es5.c
+    -rwxrwxr-x 1 kate kate 16040 Apr 20 10:44 es6
+    -rw-r--r-- 1 kate kate   112 Feb  8  2021 es6.c
+    -rwxrwxr-x 1 kate kate 16000 Apr 20 10:44 es7
+    -rw-r--r-- 1 kate kate   107 Feb  8  2021 es7.c
+    -rwxrwxr-x 1 kate kate 16088 Apr 20 10:44 es8
+    -rw-r--r-- 1 kate kate   644 Feb  8  2021 es8.c
+
+    - "grep es" lee de su entrada estándar y busca por entradas con la 
+    cadena de caracters "es".
+
+4. Ejecuta un pipeline que muestre en la salida estándar el PID, el usuario y el nombre de
+todos los procesos bash que se están ejecutando en el sistema. Para ello utiliza los
+comandos ps y grep combinados con una pipe.
+
+    - ps -Ao pid,user,fname | grep kate
+
+5. El fichero es8.c contiene un programa que escribe dos veces
+un número por salida estándar: una usando la representación interna de la máquina y
+otra convirtiendo antes el número a string. Compílalo y ejecútalo. ¿Cuántos bytes se
+escriben en cada caso? ¿Qué diferencias observas en lo que aparece en pantalla?
+
+    - Se escriben 4 bytes en el caso de lo caracteres ASCII y 5 en el caso del número
+    porque este incluye el byte de terminación '\0'. La cadena de ASCII se escribe empezando por 
+    el byte más pequeño (el numero en hexa es 0x2942), se escribe por tanto, 0x42 ('B') y luego 
+    0x229 (')'). En el caso del entero formatemmos los bytes de tal manera que tenemos 0x2942 pero
+    en formato decimal como una cadena de caracteres acabada en 0x00 ('\0').
+
+6. Analiza el fichero fuente de los dos device drivers y contesta a las siguientes preguntas:
+
+    a) ¿Qué función sirve para implementar el read específico del dispositivo
+    gestionado por cada device driver?
+
+    - static ssize_t read_driver_2 (struct file *f, char __user * buffer, size_t s, loff_t * off)
+    en el caso de myDriver2 y static ssize_t read_driver_1 (struct file *f, char __user * buffer, size_t s, loff_t * off)
+    en el caso de myDriver1.
+
+    b) ¿Qué son el major y el minor? ¿Para qué sirven? ¿Qué major y minor
+    utilizan los dos device drivers?
+
+    - El major es un entero que identifica el dispositivo vistual dentro del listado de dispositivos virtuales
+    disponibles al SO, el minor es un entero indicando la instancia en concreto de un dispositivo. myDriver1
+    usa minor 213 y minor 0 (en el SO usado) y myDriver2 usa major 215 y minor 0.

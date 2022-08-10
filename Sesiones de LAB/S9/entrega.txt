@@ -1,0 +1,35 @@
+PREGUNTA 70.Contesta a las siguientes preguntas en el fichero "entrega.txt"
+
+¿Cual/es de los comandos anteriores han dado error al intentar ejecutarlos? Explica
+por qué.
+
+    - Sólo uno ha dado error: ln $HOME/A $HOME/A/H
+    ln: /home/kate/A: hard link not allowed for directory
+    Los hard links no estan permitidos sobre directorios, pueden generar ciclos
+    los cuales no estan permitidos para hard-links, en este caso tendriamos dos parent-dir de A:
+    $HOME/A y $HOME/A/H.
+
+Explica el resultado de ejecutar el comando “stat” utilizando como parámetro cada
+uno de los nombres simbólicos que has creado anteriormente.
+
+    - El comando stat muestra información sobre el estado del fichero que le pasamos como parámtro, entre
+    la cual podemos destacar el número de inodo (un entero > -1), el tipo de fichero (symbolic link, hard-link
+    que muestra como regular file, etc), el número de enlaces al fichero, el tamaño, entr otros.
+
+¿Cuál sería el contenido de los ficheros D, E, F y G? Comenta las diferencias que
+observas al utilizar los comandos “more” o “cat” para ver el contenido del fichero y
+el resultado de utilizar el comando “readlink”.
+
+    -
+
+Escribe en papel los accesos que se realizan cuando se accede a los ficheros:
+“$HOME/A/F”, “$HOME/A/E” y “$HOME/A/G”. Ahora compáralos con el resultado
+que obtienes cuando ejecutas el comando “namei” con cada uno de los ficheros
+
+    - 
+
+anteriores. ¿Si ejecutas “readlink $HOME/A/F” se realizan los mismos accesos?
+¿Cómo influye el hecho de que en unos casos sea una ruta absoluta a un fichero y
+en otros una ruta relativa?
+
+    -

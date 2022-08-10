@@ -1,0 +1,72 @@
+¿Cómo podéis saber los sistemas de ficheros montados en vuestro sistema y de
+qué tipo son? Indica, además, en qué directorios están montados.
+
+    - Solución: el comando usado es -> df -Th
+    Filesystem     Type   Size  Used Avail Use% Mounted on
+    tmpfs          tmpfs  787M  2.2M  785M   1% /run
+    /dev/sda10     ext4    57G   26G   29G  47% /
+    tmpfs          tmpfs  3.9G   84M  3.8G   3% /dev/shm
+    tmpfs          tmpfs  5.0M     0  5.0M   0% /run/lock
+    /dev/sda5      ext4    86G   23G   60G  28% /home
+    /dev/sda8      ext4   4.3G  3.0G  1.1G  74% /recovery
+    /dev/sda7      vfat   699M  248M  452M  36% /boot/efi
+    tmpfs          tmpfs  3.9G     0  3.9G   0% /run/qemu
+    tmpfs          tmpfs  787M  200K  787M   1% /run/user/1000
+
+¿Cómo se puede saber el número de inodos libres de un sistema de ficheros?
+¿Qué comando has utilizado y con qué opciones?
+
+    -Solución: he utilizado el comando df con la opción -i
+    Filesystem      Inodes  IUsed   IFree IUse% Mounted on
+    tmpfs          1007203   1242 1005961    1% /run
+    /dev/sda10     3801088 358064 3443024   10% /
+    tmpfs          1007203    340 1006863    1% /dev/shm
+    tmpfs          1007203      3 1007200    1% /run/lock
+    /dev/sda5      5767168 242765 5524403    5% /home
+    /dev/sda8       288000     93  287907    1% /recovery
+    /dev/sda7            0      0       0     - /boot/efi
+    tmpfs          1007203      1 1007202    1% /run/qemu
+    tmpfs           201440    208  201232    1% /run/user/1000
+
+¿Cómo se puede saber el espacio libre de un sistema de ficheros? ¿Qué
+comando has utilizado y con qué opciones?
+
+    - Solución: como en la primera pregunta basta con usar el comando
+    df con la opción -h. Si queremos información sobre un sistema de 
+    ficheros concreto deberiamos pasar como argumento el file name.
+
+¿De qué tipo es cada uno de links creados, sl_pr y hl_pr?
+
+    - Solución: sl_pr es de tipo soft link (symbolic link) y hl_pr
+    es de tipo hard link (regular file).
+
+    file        Inodo       tipo fichero        nª links
+    hl_pr      3032650     regular file           2
+    sl_pr      3032651     symbolic link         1
+
+    hl_pr y pr.txt tienen el mismo número de referencias (2) porque
+    ambos apuntan al mismo inodo
+
+    cat hl_pr: 
+        esto es una prueba
+    namei hl_pr:
+        f: hl_pr
+         - hl_pr
+    readlink hl_pr: (empty output)
+
+    cat sl_pr:
+        esto es una prueba
+    namei sl_pr:
+        f: sl_pr
+        l sl_pr -> pr.txt
+        - pr.txt
+    readlink sl_pr:
+        pr.txt
+
+¿Observas alguna diferencia en el resultado de alguno de los comandos
+cuando se ejecutan sobre sl_pr y cuando se ejecutan sobre hl_pr? Si hay
+alguna diferencia, explica el motivo.
+
+    - Sí hay diferencia, ya que namei sobre sl_pr nos mustra un fichero de tipo symlink
+    antes de llegar al fichero destino (pr.txt). Por otra parte la salida de readlink para hl_pr
+    está vacía y readlink para sl_pr nos muestra el valor del symlink contnido en sl_pr, pr.txt en este caso.

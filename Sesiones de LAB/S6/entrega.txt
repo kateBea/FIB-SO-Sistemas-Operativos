@@ -1,0 +1,177 @@
+PREGUNTA 43. Apunta en el fichero entrega.txt el número de unidades de cálculo (hardware
+threads, cores y CPUS) que tienes en la máquina.
+
+    - Número de HW threads:     4    
+      Número de Cores:          4
+      Número de CPUss:          4
+
+En el primero de ellos lanzaremos menos instancias que threads de hardware
+tenemos en la máquina. Para ello ejecutaremos el comando ./FIB ninstancias,
+donde ninstancias=(NTHREADS/2)+1. Este experimento lo ejecutaremos sólo
+una vez.
+
+    - ./FIB 3
+
+    10.65user 0.00system 0:10.65elapsed 99%CPU (0avgtext+0avgdata 1612maxresident)k
+    0inputs+0outputs (0major+69minor)pagefaults 0swaps
+    El fibonacci de 45 es 1134903170
+    10.65user 0.00system 0:10.65elapsed 99%CPU (0avgtext+0avgdata 1696maxresident)k
+    0inputs+0outputs (0major+71minor)pagefaults 0swaps
+    El fibonacci de 45 es 1134903170
+    10.66user 0.00system 0:10.69elapsed 99%CPU (0avgtext+0avgdata 1544maxresident)k
+    0inputs+0outputs (0major+69minor)pagefaults 0swaps
+
+
+En el segundo experimento lanzaremos más instancias que threads de
+hardware. Para ello ejecutaremos de nuevo ./FIB ninstancias, pero en este caso
+ninstancias=NTHREADS+2. Este experimento lo ejecutaremos sólo una vez.
+
+    - ./FIB 6
+
+    13.41user 0.01system 0:18.27elapsed 73%CPU (0avgtext+0avgdata 1484maxresident)k
+    0inputs+0outputs (0major+69minor)pagefaults 0swaps
+    El fibonacci de 45 es 1134903170
+    13.68user 0.00system 0:18.88elapsed 72%CPU (0avgtext+0avgdata 1596maxresident)k
+    0inputs+0outputs (0major+71minor)pagefaults 0swaps
+    El fibonacci de 45 es 1134903170
+    13.71user 0.00system 0:19.59elapsed 69%CPU (0avgtext+0avgdata 1592maxresident)k
+    0inputs+0outputs (0major+70minor)pagefaults 0swaps
+    El fibonacci de 45 es 1134903170
+    13.80user 0.00system 0:20.21elapsed 68%CPU (0avgtext+0avgdata 1572maxresident)k
+    0inputs+0outputs (0major+69minor)pagefaults 0swaps
+    El fibonacci de 45 es 1134903170
+    13.46user 0.00system 0:21.40elapsed 62%CPU (0avgtext+0avgdata 1588maxresident)k
+    0inputs+0outputs (0major+71minor)pagefaults 0swaps
+    El fibonacci de 45 es 1134903170
+    13.33user 0.00system 0:21.58elapsed 61%CPU (0avgtext+0avgdata 1540maxresident)k
+    0inputs+0outputs (0major+69minor)pagefaults 0swaps
+
+PREGUNTA 47. ¿Cómo se ve afectado el tiempo de ejecución del proceso? Anota el tiempo
+medio de las ejecuciones secuenciales del comando ./FIB 1 en las diferentes filas de la hoja
+“detección grupos”.
+
+    - A diferencia de ejecutar en dos terminales, el SO da prioridad a su -c ‘./FIB (NTHREADS+2)’ so1,
+    sin embargo, ejecutando en dos terminaales el SO repartia las ejecuciones de manera equitativa entre usuarios.
+
+PREGUNTA 48.¿Qué %CPU ha asignado el sistema a cada proceso en cada caso?
+
+    - Ejecución con ambos usuarios en diferentes terminales
+
+    ./FIB 6 (./FIB (NTHREADS+2)): Terminal 1 (usuario dummydummy)
+
+    El fibonacci de 45 es 1134903170
+    13.64user 0.01system 0:38.69elapsed 35%CPU (0avgtext+0avgdata 1592maxresident)k
+    0inputs+0outputs (0major+70minor)pagefaults 0swaps
+    El fibonacci de 45 es 1134903170
+    13.78user 0.01system 0:38.89elapsed 35%CPU (0avgtext+0avgdata 1588maxresident)k
+    0inputs+0outputs (0major+68minor)pagefaults 0swaps
+    El fibonacci de 45 es 1134903170
+    13.85user 0.03system 0:39.26elapsed 35%CPU (0avgtext+0avgdata 1584maxresident)k
+    0inputs+0outputs (0major+68minor)pagefaults 0swaps
+    El fibonacci de 45 es 1134903170
+    13.86user 0.02system 0:39.45elapsed 35%CPU (0avgtext+0avgdata 1632maxresident)k
+    32inputs+0outputs (0major+70minor)pagefaults 0swaps
+    El fibonacci de 45 es 1134903170
+    13.71user 0.01system 0:39.45elapsed 34%CPU (0avgtext+0avgdata 1704maxresident)k
+    0inputs+0outputs (0major+71minor)pagefaults 0swaps
+    El fibonacci de 45 es 1134903170
+    13.71user 0.02system 0:39.56elapsed 34%CPU (0avgtext+0avgdata 1588maxresident)k
+    0inputs+0outputs (0major+68minor)pagefaults 0swaps
+
+    ./FIB 1: Terminal 2 (usuario dummyuser)
+    ./FIB 1
+    ./FIB 1
+    ./FIB 1
+    ./FIB 1
+
+    El fibonacci de 45 es 1134903170
+    13.73user 0.00system 0:32.72elapsed 41%CPU (0avgtext+0avgdata 1648maxresident)k
+    0inputs+0outputs (0major+71minor)pagefaults 0swaps
+    El fibonacci de 45 es 1134903170
+    13.73user 0.02system 0:33.20elapsed 41%CPU (0avgtext+0avgdata 1652maxresident)k
+    0inputs+0outputs (0major+72minor)pagefaults 0swaps
+    El fibonacci de 45 es 1134903170
+    13.89user 0.02system 0:34.03elapsed 40%CPU (0avgtext+0avgdata 1616maxresident)k
+    0inputs+0outputs (0major+68minor)pagefaults 0swaps
+    El fibonacci de 45 es 1134903170
+    13.78user 0.00system 0:33.95elapsed 40%CPU (0avgtext+0avgdata 1488maxresident)k
+    0inputs+0outputs (0major+69minor)pagefaults 0swaps
+    El fibonacci de 45 es 1134903170
+    13.81user 0.01system 0:33.56elapsed 41%CPU (0avgtext+0avgdata 1548maxresident)k
+    0inputs+0outputs (0major+69minor)pagefaults 0swaps
+
+    - Ejecución en el mismo terminal (user dummyuser)
+
+    su -c "./FIB (NTHREADS+2)" dummydummy
+    ./FIB 1
+    ./FIB 1
+    ./FIB 1
+    ./FIB 1
+    ./FIB 1
+
+    El fibonacci de 45 es 1134903170
+    14.15user 0.01system 0:33.35elapsed 42%CPU (0avgtext+0avgdata 1492maxresident)k
+    0inputs+0outputs (0major+69minor)pagefaults 0swaps
+    El fibonacci de 45 es 1134903170
+    14.13user 0.00system 0:34.87elapsed 40%CPU (0avgtext+0avgdata 1636maxresident)k
+    0inputs+0outputs (0major+70minor)pagefaults 0swaps
+    El fibonacci de 45 es 1134903170
+    14.13user 0.00system 0:34.17elapsed 41%CPU (0avgtext+0avgdata 1568maxresident)k
+    0inputs+0outputs (0major+70minor)pagefaults 0swaps
+    El fibonacci de 45 es 1134903170
+    13.82user 0.01system 0:34.02elapsed 40%CPU (0avgtext+0avgdata 1636maxresident)k
+    0inputs+0outputs (0major+71minor)pagefaults 0swaps
+    El fibonacci de 45 es 1134903170
+    14.09user 0.00system 0:38.90elapsed 36%CPU (0avgtext+0avgdata 1584maxresident)k
+    0inputs+0outputs (0major+69minor)pagefaults 0swaps
+    El fibonacci de 45 es 1134903170
+    14.09user 0.00system 0:34.46elapsed 40%CPU (0avgtext+0avgdata 1604maxresident)k
+    0inputs+0outputs (0major+71minor)pagefaults 0swaps
+    El fibonacci de 45 es 1134903170
+    13.97user 0.02system 0:39.44elapsed 35%CPU (0avgtext+0avgdata 1568maxresident)k
+    0inputs+0outputs (0major+70minor)pagefaults 0swaps
+    El fibonacci de 45 es 1134903170
+    13.97user 0.00system 0:39.49elapsed 35%CPU (0avgtext+0avgdata 1548maxresident)k
+    0inputs+0outputs (0major+70minor)pagefaults 0swaps
+    El fibonacci de 45 es 1134903170
+    14.00user 0.01system 0:39.58elapsed 35%CPU (0avgtext+0avgdata 1632maxresident)k
+    0inputs+0outputs (0major+70minor)pagefaults 0swaps
+    El fibonacci de 45 es 1134903170
+    14.04user 0.01system 0:39.59elapsed 35%CPU (0avgtext+0avgdata 1636maxresident)k
+    0inputs+0outputs (0major+70minor)pagefaults 0swaps
+    El fibonacci de 45 es 1134903170
+    14.01user 0.00system 0:39.78elapsed 35%CPU (0avgtext+0avgdata 1580maxresident)k
+    0inputs+0outputs (0major+68minor)pagefaults 0swaps
+
+PREGUNTA 49. La asignación, ¿ha sido por jerarquía de procesos o por usuario?
+    - En test sobre mismo terminal la jerarquí ha sido por procesos, se ha asignado CPU primero
+    para el primer comando y luego se ha asignado CPU a las seecuencia de procesos rsultantes de
+    ejecutar ./FIB 1.
+
+PREGUNTA 50. ¿Cómo se ve afectado el tiempo de ejecución de FIB respecto al número de
+instancias de BAJA_PRIO_FIB?u
+
+    - El tiempo de ejecución de FIB es mucho menor al de BAJO_PRIO_FIB, FIB ocupa CPU antes.
+
+PREGUNTA 51. ¿Qué %CPU ha asignado el sistema a cada proceso con 2 y NTHREADS+2
+instancias de BAJA_PRIO_FIB?
+
+    - En media 65.5% de CPU ha sido asignada a procesos con NTHREADS+2 instancias de BAJO_PRIO_FIB
+    y 99% a procesos con 2 instancias. 
+
+PREGUNTA 52. ¿Cuánta memoria física tiene el sistema (F) en bytes?
+
+    - El sistema tiene 8251015168 bytes (F = 8251015168 bytes)
+
+PREGUNTA 53. Rellena la siguiente tabla y añádela al fichero s6.ods. ¿En la Ejecución 2 por qué
+crees que cambia el tiempo de acceso según el número de iteración?
+
+    - En la ejecución 2 cambia el tiempo de accesso según el número de iteración por reducción 
+    del costo en tener que cargar páginas de disco.
+
+PREGUNTA 54.Rellena la siguiente tabla y añádela al fichero s6.ods (suma los fallos de página
+de todos los procesos de una misma ejecución):
+
+    - Tres de los procesos creados para la ejecución 4 han acabado su ejecucióny están en estado 
+    Zombie (Z) al momento de comprobar su fichero stat. Un de los procesos creados para la ejecución 4 han 
+    acabado su ejecucióny están en estado Zombie (Z) al momento de comprobar su fichero stat.

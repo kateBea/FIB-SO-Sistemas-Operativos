@@ -1,0 +1,22 @@
+PREGUNTA 67. ¿Qué contiene el fichero al final de la ejecución?¿Contiene la salida del padre y
+del hijo, o sólo la del padre? ¿Cómo se explica ese contenido?
+
+    - Contine la salida del padre y la del hijo. El redireccionamiento afecta a ambos porque
+    el comando ">" cambia la salida estandar de los porcesos resultantes de ejcutar nuestro programa
+    al fichero que nosotros indiquemos y se hereda la tabla de FD en el fork(). Si el proceso padre en vez de escribir 
+    por entrada estándar, escribe por salida estándar de error en la consola vemos "Fin" y en el fichero 
+    "Inicio", porque se ha cambiado la salida estandar del hijo al fichero (la del padre también), pero la
+    salida std de error del padre permanece intacta.
+
+PREGUNTA 68. ¿Acaba el programa padre? ¿y el hijo? ¿Por qué?
+
+    - Ni el padre ni el hijo acaban. Miestras haya un escritor de la pipe esta no se cierra
+    y en el caso del proceso padre se queda bloqueado en el waitpid, pero el hijo
+    también se bloquea esperando la llegada de datos por la pipe por que todavía hay escritor (el proceso padre).
+
+PREGUNTA 69. Si quisiéramos que el lector también pudiera enviar un mensaje al escritor
+¿podríamos utilizar la misma pipe con nombre o deberíamos crear otra? Razona la respuesta.
+
+    - No debemos crear otra pipe. La pipe es bidireccional simplemente deberíamos abrila en
+    el modo correspondiente, con permisos de lectura en el proceso en que queremos leer de la pipe
+    y escritura en el en que queremo escribir a la pipe.

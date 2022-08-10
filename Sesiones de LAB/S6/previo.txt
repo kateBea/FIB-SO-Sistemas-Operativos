@@ -1,0 +1,414 @@
+PREGUNTA 1. Consulta el man del proc (man proc) e indica, en el fichero “previo.txt”, en qué fichero
+del /proc, y en qué campo del fichero, se muestra el número de fallos de página totales
+del proceso (minor page faults + major page faults en Linux).
+
+    - (10) minflt  %lu: The number of minor faults the process has made which have not required 
+    loading a memory  page from disk.
+    (12) majflt  %lu: The number of major faults the process has made which have required loading 
+    a memory page from disk.
+
+    cut -d " " -f 1,2,10,12 /proc/1419/stat
+    
+    Nuestras secciones de intres son por tanto los campos 11 y 12 del fichero /proc/[PID]/stat
+
+PREGUNTA 2. Ejecuta el comando vmstat de manera que la salida se muestre cada segundo. ¿Qué
+opción has utilizado? ¿En qué columnas se muestra la cantidad de swap-in y swap-out?
+Contesta a las preguntas en el fichero “previo.txt”.
+
+    - vmstat 1 -> 1 es delay en segunos y el númro de updates es infinito por no especificar "count"
+    El swap-in y swap-out se muestran en las columnas 7 y 8 respectivamente.
+
+PREGUNTA 6. Utiliza el comando /usr/bin/time para medir el tiempo que tarda en ejecutar Fibonacci
+si se le pasan los parámetros 10, 20, 30, 40 y 50 y apunta ese tiempo en el fichero
+previo.txt.
+
+    - Fibonacci(10): /usr/bin/time ./fib 10 (elapsed: 0.00s)
+    El fibonacci de 10 es 55
+    0.00user 0.00system 0:00.00elapsed 100%CPU (0avgtext+0avgdata 1596maxresident)k
+    0inputs+0outputs (0major+71minor)pagefaults 0swaps
+
+    Fibonacci(20): /usr/bin/time ./fib 20 (elapsed: 0.00s)
+    El fibonacci de 20 es 6765
+    0.00user 0.00system 0:00.00elapsed 100%CPU (0avgtext+0avgdata 1476maxresident)k
+    0inputs+0outputs (0major+68minor)pagefaults 0swaps
+
+    Fibonacci(30): /usr/bin/time ./fib 30 (elapsed: 0.02s)
+    El fibonacci de 30 es 832040
+    0.02user 0.00system 0:00.02elapsed 92%CPU (0avgtext+0avgdata 1696maxresident)k
+    0inputs+0outputs (0major+71minor)pagefaults 0swaps
+
+    Fibonacci(40): /usr/bin/time ./fib 40 (elapsed: 0.91s)
+    El fibonacci de 40 es 102334155
+    0.91user 0.00system 0:00.91elapsed 100%CPU (0avgtext+0avgdata 1576maxresident)k
+    0inputs+0outputs (0major+69minor)pagefaults 0swaps
+
+    Fibonacci(50): /usr/bin/time ./fib 50 (elapsed: 1m51.88s)
+    El fibonacci de 50 es 12586269025
+    111.88user 0.00system 1:51.88elapsed 99%CPU (0avgtext+0avgdata 1692maxresident)k
+    0inputs+0outputs (0major+72minor)pagefaults 0swaps
+
+PREGUNTA 7. Anota en el fichero previo.txt con qué valor de nice se ejecuta fibonacci desde el script
+BAJA_PRIO_FIB. Para averiguarlo, consulta en la página del manual el comportamiento
+de nice.
+
+    - Al no especificar valor de nice el valor por defecto es -5 mi Shell
+
+BAJA_PRIO_FIB con argumento 50
+
+El fibonacci de 45 es 1134903170
+13.59user 0.01system 2:41.33elapsed 8%CPU (0avgtext+0avgdata 1872maxresident)k
+0inputs+0outputs (0major+144minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.79user 0.00system 2:55.74elapsed 7%CPU (0avgtext+0avgdata 1952maxresident)k
+0inputs+0outputs (0major+144minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.13user 0.01system 3:07.50elapsed 7%CPU (0avgtext+0avgdata 1900maxresident)k
+0inputs+0outputs (0major+146minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.41user 0.01system 3:07.78elapsed 7%CPU (0avgtext+0avgdata 1952maxresident)k
+0inputs+0outputs (0major+145minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.25user 0.00system 3:16.41elapsed 6%CPU (0avgtext+0avgdata 1864maxresident)k
+0inputs+0outputs (0major+144minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.27user 0.01system 3:44.23elapsed 5%CPU (0avgtext+0avgdata 1928maxresident)k
+0inputs+0outputs (0major+145minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.73user 0.00system 5:09.30elapsed 4%CPU (0avgtext+0avgdata 1880maxresident)k
+0inputs+0outputs (0major+146minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.80user 0.00system 5:13.94elapsed 4%CPU (0avgtext+0avgdata 1912maxresident)k
+0inputs+0outputs (0major+145minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.74user 0.00system 5:17.91elapsed 4%CPU (0avgtext+0avgdata 1836maxresident)k
+0inputs+0outputs (0major+145minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.48user 0.00system 5:17.78elapsed 3%CPU (0avgtext+0avgdata 1956maxresident)k
+0inputs+0outputs (0major+147minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.22user 0.00system 5:20.04elapsed 4%CPU (0avgtext+0avgdata 1924maxresident)k
+0inputs+0outputs (0major+143minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.09user 0.00system 5:20.79elapsed 4%CPU (0avgtext+0avgdata 1968maxresident)k
+0inputs+0outputs (0major+146minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.94user 0.01system 5:19.73elapsed 4%CPU (0avgtext+0avgdata 1880maxresident)k
+0inputs+0outputs (0major+143minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.55user 0.02system 5:20.98elapsed 3%CPU (0avgtext+0avgdata 1740maxresident)k
+0inputs+0outputs (0major+142minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.44user 0.00system 5:25.00elapsed 4%CPU (0avgtext+0avgdata 1952maxresident)k
+0inputs+0outputs (0major+147minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.02user 0.00system 5:23.96elapsed 4%CPU (0avgtext+0avgdata 1928maxresident)k
+0inputs+0outputs (0major+146minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.03user 0.00system 5:25.68elapsed 4%CPU (0avgtext+0avgdata 1928maxresident)k
+0inputs+0outputs (0major+145minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.60user 0.01system 5:25.88elapsed 3%CPU (0avgtext+0avgdata 1800maxresident)k
+0inputs+0outputs (0major+142minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.18user 0.00system 5:37.45elapsed 3%CPU (0avgtext+0avgdata 1928maxresident)k
+0inputs+0outputs (0major+144minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.38user 0.00system 5:34.22elapsed 3%CPU (0avgtext+0avgdata 1964maxresident)k
+0inputs+0outputs (0major+147minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.67user 0.01system 5:36.04elapsed 3%CPU (0avgtext+0avgdata 1956maxresident)k
+0inputs+0outputs (0major+146minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.20user 0.01system 5:37.96elapsed 3%CPU (0avgtext+0avgdata 1796maxresident)k
+0inputs+0outputs (0major+141minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.66user 0.02system 5:39.13elapsed 3%CPU (0avgtext+0avgdata 1952maxresident)k
+0inputs+0outputs (0major+144minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.40user 0.01system 5:40.28elapsed 3%CPU (0avgtext+0avgdata 2008maxresident)k
+0inputs+0outputs (0major+147minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.11user 0.01system 5:41.11elapsed 3%CPU (0avgtext+0avgdata 1864maxresident)k
+0inputs+0outputs (0major+142minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.17user 0.01system 5:41.56elapsed 3%CPU (0avgtext+0avgdata 1872maxresident)k
+0inputs+0outputs (0major+143minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.32user 0.00system 5:42.78elapsed 3%CPU (0avgtext+0avgdata 1872maxresident)k
+0inputs+0outputs (0major+145minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.59user 0.00system 5:42.87elapsed 3%CPU (0avgtext+0avgdata 1952maxresident)k
+0inputs+0outputs (0major+145minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.54user 0.00system 5:43.90elapsed 3%CPU (0avgtext+0avgdata 2072maxresident)k
+0inputs+0outputs (0major+147minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.67user 0.00system 5:45.46elapsed 3%CPU (0avgtext+0avgdata 1908maxresident)k
+0inputs+0outputs (0major+144minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.88user 0.01system 5:45.47elapsed 3%CPU (0avgtext+0avgdata 1860maxresident)k
+0inputs+0outputs (0major+144minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.59user 0.00system 5:46.29elapsed 3%CPU (0avgtext+0avgdata 1736maxresident)k
+0inputs+0outputs (0major+141minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.93user 0.00system 5:46.70elapsed 3%CPU (0avgtext+0avgdata 2068maxresident)k
+0inputs+0outputs (0major+144minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.75user 0.00system 5:46.91elapsed 3%CPU (0avgtext+0avgdata 1924maxresident)k
+0inputs+0outputs (0major+144minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.82user 0.00system 5:46.91elapsed 3%CPU (0avgtext+0avgdata 1872maxresident)k
+0inputs+0outputs (0major+145minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.69user 0.00system 5:47.05elapsed 3%CPU (0avgtext+0avgdata 1924maxresident)k
+0inputs+0outputs (0major+141minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.69user 0.01system 5:47.59elapsed 3%CPU (0avgtext+0avgdata 1740maxresident)k
+0inputs+0outputs (0major+141minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.72user 0.01system 5:47.82elapsed 3%CPU (0avgtext+0avgdata 1928maxresident)k
+0inputs+0outputs (0major+144minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.06user 0.02system 5:48.26elapsed 3%CPU (0avgtext+0avgdata 1736maxresident)k
+0inputs+0outputs (0major+140minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.05user 0.01system 5:49.97elapsed 3%CPU (0avgtext+0avgdata 2004maxresident)k
+0inputs+0outputs (0major+145minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.62user 0.01system 5:49.96elapsed 3%CPU (0avgtext+0avgdata 1908maxresident)k
+0inputs+0outputs (0major+143minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.79user 0.01system 5:50.16elapsed 3%CPU (0avgtext+0avgdata 1896maxresident)k
+0inputs+0outputs (0major+143minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.48user 0.01system 5:50.65elapsed 3%CPU (0avgtext+0avgdata 1736maxresident)k
+0inputs+0outputs (0major+141minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.89user 0.00system 5:50.65elapsed 3%CPU (0avgtext+0avgdata 1740maxresident)k
+0inputs+0outputs (0major+143minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+El fibonacci de 45 es 1134903170
+13.13user 0.00system 5:50.67elapsed 3%CPU (0avgtext+0avgdata 1740maxresident)k
+0inputs+0outputs (0major+141minor)pagefaults 0s12.88waups
+ser 0.01system 5:50.81elapsed 3%CPU (0avgtext+0avgdata 2008maxresident)k
+0inputs+0outputs (0major+146minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.96user 0.00system 5:50.98elapsed 3%CPU (0avgtext+0avgdata 1852maxresident)k
+0inputs+0outputs (0major+142minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.07user 0.00system 5:51.00elapsed 3%CPU (0avgtext+0avgdata 1956maxresident)k
+0inputs+0outputs (0major+146minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.12user 0.00system 5:50.87elapsed 3%CPU (0avgtext+0avgdata 1924maxresident)k
+0inputs+0outputs (0major+144minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.17user 0.01system 5:51.23elapsed 3%CPU (0avgtext+0avgdata 1932maxresident)k
+0inputs+0outputs (0major+144minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.88user 0.00system 5:51.37elapsed 3%CPU (0avgtext+0avgdata 1968maxresident)k
+0inputs+0outputs (0major+144minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.95user 0.00system 5:51.64elapsed 3%CPU (0avgtext+0avgdata 1928maxresident)k
+0inputs+0outputs (0major+145minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+El fibonacci de 45 es 1134903170
+12.92user 0.00system 5:52.03elapsed 3%CPU (0avgtext+0avgdata 2068maxresident)k
+0inputs+0outputs (0major+146minor)pagefaults 0swaps
+13.17user 0.02system 5:51.93elapsed 3%CPU (0avgtext+0avgdata 1860maxresident)k
+0inputs+0outputs (0major+145minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.20user 0.01system 5:52.34elapsed 3%CPU (0avgtext+0avgdata 1908maxresident)k
+0inputs+0outputs (0major+144minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.93user 0.00system 5:52.44elapsed 3%CPU (0avgtext+0avgdata 2008maxresident)k
+0inputs+0outputs (0major+148minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.32user 0.00system 5:52.80elapsed 3%CPU (0avgtext+0avgdata 1800maxresident)k
+0inputs+0outputs (0major+145minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.34user 0.01system 5:52.86elapsed 3%CPU (0avgtext+0avgdata 1924maxresident)k
+0inputs+0outputs (0major+142minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.07user 0.00system 5:53.19elapsed 3%CPU (0avgtext+0avgdata 1968maxresident)k
+0inputs+0outputs (0major+145minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.85user 0.00system 5:53.29elapsed 3%CPU (0avgtext+0avgdata 1952maxresident)k
+0inputs+0outputs (0major+143minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.53user 0.02system 5:55.22elapsed 3%CPU (0avgtext+0avgdata 1852maxresident)k
+0inputs+0outputs (0major+145minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.21user 0.01system 5:56.12elapsed 3%CPU (0avgtext+0avgdata 1908maxresident)k
+0inputs+0outputs (0major+144minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.14user 0.00system 5:56.23elapsed 3%CPU (0avgtext+0avgdata 1876maxresident)k
+0inputs+0outputs (0major+145minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.32user 0.00system 5:56.51elapsed 3%CPU (0avgtext+0avgdata 1924maxresident)k
+0inputs+0outputs (0major+142minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.24user 0.01system 5:56.73elapsed 3%CPU (0avgtext+0avgdata 1900maxresident)k
+0inputs+0outputs (0major+146minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.47user 0.01system 5:56.80elapsed 3%CPU (0avgtext+0avgdata 1796maxresident)k
+0inputs+0outputs (0major+141minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.35user 0.00system 5:57.43elapsed 3%CPU (0avgtext+0avgdata 1872maxresident)k
+0inputs+0outputs (0major+145minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.36user 0.02system 5:57.59elapsed 3%CPU (0avgtext+0avgdata 1876maxresident)k
+0inputs+0outputs (0major+144minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.07user 0.00system 5:31.61elapsed 3%CPU (0avgtext+0avgdata 1924maxresident)k
+0inputs+0outputs (0major+142minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.57user 0.00system 5:32.12elapsed 3%CPU (0avgtext+0avgdata 1924maxresident)k
+0inputs+0outputs (0major+144minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.92user 0.00system 5:33.26elapsed 3%CPU (0avgtext+0avgdata 1860maxresident)k
+0inputs+0outputs (0major+142minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.83user 0.00system 5:35.04elapsed 3%CPU (0avgtext+0avgdata 1864maxresident)k
+0inputs+0outputs (0major+143minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.50user 0.01system 5:35.37elapsed 3%CPU (0avgtext+0avgdata 1800maxresident)k
+0inputs+0outputs (0major+142minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.49user 0.00system 5:35.46elapsed 3%CPU (0avgtext+0avgdata 1924maxresident)k
+0inputs+0outputs (0major+144minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.75user 0.00system 5:35.33elapsed 3%CPU (0avgtext+0avgdata 1928maxresident)k
+0inputs+0outputs (0major+144minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.53user 0.00system 5:35.67elapsed 3%CPU (0avgtext+0avgdata 1848maxresident)k
+0inputs+0outputs (0major+142minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.52user 0.00system 5:35.18elapsed 3%CPU (0avgtext+0avgdata 1928maxresident)k
+0inputs+0outputs (0major+144minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.82user 0.00system 5:35.66elapsed 3%CPU (0avgtext+0avgdata 1872maxresident)k
+0inputs+0outputs (0major+145minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.09user 0.01system 5:35.97elapsed 3%CPU (0avgtext+0avgdata 1796maxresident)k
+0inputs+0outputs (0major+143minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.57user 0.00system 5:36.10elapsed 3%CPU (0avgtext+0avgdata 1872maxresident)k
+0inputs+0outputs (0major+144minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.80user 0.00system 5:36.67elapsed 3%CPU (0avgtext+0avgdata 2004maxresident)k
+0inputs+0outputs (0major+147minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.06user 0.00system 5:36.21elapsed 3%CPU (0avgtext+0avgdata 2008maxresident)k
+0inputs+0outputs (0major+144minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.68user 0.00system 5:37.08elapsed 3%CPU (0avgtext+0avgdata 1924maxresident)k
+0inputs+0outputs (0major+142minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.79user 0.00system 5:36.52elapsed 3%CPU (0avgtext+0avgdata 1852maxresident)k
+0inputs+0outputs (0major+142minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.94user 0.01system 5:36.92elapsed 3%CPU (0avgtext+0avgdata 1956maxresident)k
+0inputs+0outputs (0major+145minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.00user 0.00system 5:38.39elapsed 3%CPU (0avgtext+0avgdata 1740maxresident)k
+0inputs+0outputs (0major+142minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.07user 0.01system 5:38.28elapsed 3%CPU (0avgtext+0avgdata 1928maxresident)k
+0inputs+0outputs (0major+143minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.15user 0.00system 5:38.72elapsed 3%CPU (0avgtext+0avgdata 2072maxresident)k
+0inputs+0outputs (0major+146minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+El fibonacci de 45 es 1134903170
+13.2012.91user u0.00system 5:38.52elapsser 0.01system 5:38.37eelda p3%seCdP U3% C(P0Ua v(g0taexvtg+t0eaxvtg+d0aatvag d1852amtaax r1924emsaixdreensti)dke
+n0ti)nkp
+u0tisn+p0uotust+p0uotust p(u0tmsa j(o0rm+a147jmoirn+o145rm)ipnaogre)fpaaugletfsa u0lstwsa p0ss
+waps
+El fibonacci de 45 es 1134903170
+13.11user 0.00system 5:38.99elapsed 3%CPU (0avgtext+0avgdata 1956maxresident)k
+0inputs+0outputs (0major+145minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.28user 0.00system 5:38.51elapsed 3%CPU (0avgtext+0avgdata 2004maxresident)k
+0inputs+0outputs (0major+144minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.16user 0.00system 5:38.91elapsed 3%CPU (0avgtext+0avgdata 1872maxresident)k
+0inputs+0outputs (0major+145minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.08user 0.00system 5:38.90elapsed 3%CPU (0avgtext+0avgdata 1924maxresident)k
+0inputs+0outputs (0major+145minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.40user 0.02system 5:39.23elapsed 3%CPU (0avgtext+0avgdata 1872maxresident)k
+0inputs+0outputs (0major+142minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+12.89user 0.00system 5:39.31elapsed 3%CPU (0avgtext+0avgdata 1948maxresident)k
+0inputs+0outputs (0major+148minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.17user 0.01system 5:39.14elapsed 3%CPU (0avgtext+0avgdata 1908maxresident)k
+0inputs+0outputs (0major+145minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.25user 0.00system 5:39.38elapsed 3%CPU (0avgtext+0avgdata 1736maxresident)k
+0inputs+0outputs (0major+142minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.26user 0.00system 5:39.08elapsed 3%CPU (0avgtext+0avgdata 1948maxresident)k
+0inputs+0outputs (0major+146minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.08user 0.00system 5:39.66elapsed 3%CPU (0avgtext+0avgdata 1740maxresident)k
+0inputs+0outputs (0major+143minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.29user 0.01system 5:40.11elapsed 3%CPU (0avgtext+0avgdata 1908maxresident)k
+0inputs+0outputs (0major+143minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.10user 0.01system 5:40.00elapsed 3%CPU (0avgtext+0avgdata 1876maxresident)k
+0inputs+0outputs (0major+145minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.10user 0.01system 5:39.65elapsed 3%CPU (0avgtext+0avgdata 1796maxresident)k
+0inputs+0outputs (0major+144minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.09user 0.00system 5:40.32elapsed 3%CPU (0avgtext+0avgdata 1860maxresident)k
+0inputs+0outputs (0major+146minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.38user 0.01system 5:40.10elapsed 3%CPU (0avgtext+0avgdata 2004maxresident)k
+0inputs+0outputs (0major+146minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.11user 0.01system 5:40.23elapsed 3%CPU (0avgtext+0avgdata 2068maxresident)k
+0inputs+0outputs (0major+147minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.03user 0.02system 5:40.01elapsed 3%CPU (0avgtext+0avgdata 1932maxresident)k
+0inputs+0outputs (0major+144minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.21user 0.01system 5:40.19elapsed 3%CPU (0avgtext+0avgdata 1952maxresident)k
+0inputs+0outputs (0major+147minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.34user 0.00system 5:40.44elapsed 3%CPU (0avgtext+0avgdata 1912maxresident)k
+0inputs+0outputs (0major+146minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.41user 0.00system 5:40.57elapsed 3%CPU (0avgtext+0avgdata 1848maxresident)k
+0inputs+0outputs (0major+144minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.17user 0.00system 5:40.75elapsed 3%CPU (0avgtext+0avgdata 1864maxresident)k
+0inputs+0outputs (0major+143minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.42user 0.01system 5:40.74elapsed 3%CPU (0avgtext+0avgdata 2068maxresident)k
+0inputs+0outputs (0major+145minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.14user 0.00system 5:40.90elapsed 3%CPU (0avgtext+0avgdata 1864maxresident)k
+0inputs+0outputs (0major+144minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.41user 0.01system 5:40.70elapsed 3%CPU (0avgtext+0avgdata 1848maxresident)k
+0inputs+0outputs (0major+147minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.40user 0.01system 5:40.88elapsed 3%CPU (0avgtext+0avgdata 1868maxresident)k
+0inputs+0outputs (0major+143minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.48user 0.00system 5:40.57elapsed 3%CPU (0avgtext+0avgdata 1924maxresident)k
+0inputs+0outputs (0major+144minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.58user 0.00system 5:40.50elapsed 3%CPU (0avgtext+0avgdata 1736maxresident)k
+0inputs+0outputs (0major+141minor)pagefaults 0swaps
+El fibonacci de 45 es 1134903170
+13.30user 0.00system 5:40.64elapsed 3%CPU (0avgtext+0avgdata 1924maxresident)k
+0inputs+0outputs (0major+144minor)pagefaults 0swaps
+
+
+cut -d " " -f 1,2,10,12 /proc/PID/stat 

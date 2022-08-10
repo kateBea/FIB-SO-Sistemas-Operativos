@@ -1,0 +1,157 @@
+PREGUNTA 55. Apunta en el fichero “entrega.txt” los comandos que has utilizado en cada
+apartado. Además entrega el fichero “es1_v2.c” ¿Qué diferencias observas en las dos
+ejecuciones de strace? ¿Cuántas llamadas a sistema read ejecuta cada versión? ¿Qué
+influencia puede tener sobre el rendimiento de ambas versiones de código? ¿Por qué?
+
+    1. comando "ps"
+    2. comando "./es1 > /dev/pts/1"
+    3. comando "./es1 | ./es1" 
+    4. ningún comando
+    5. comandos "strace -o salida_v2 -e read ./es1_v2 < es2.c" 
+    y "strace -o salida_v2 -e read ./es1 < es2.c".
+
+    - En el apartado 5 el comando "strace -o salida_v2 -e read ./es1 < es2.c" 
+    realiza muchas más llamandas a sistema, en concreto una por cada byte que
+    se lee porque hace lectura en bytes. El comando "strace -o salida_v2 -e read ./es1 < es2.c"
+    sin embargo muestra dos llamadas a sistema. Hace un único read por el canal 
+    estandar de entrada porque la lectura se hace en bloque de 256 bytes, por tanto,
+    esta lectura sigue hasta que se llena el buffer o llegamos al fin de fichero (^D).
+
+PREGUNTA 56. Explica las diferencias observadas en la salida del programa cuando el primer
+parámetro vale 0 o 1. ¿Para qué crees que sirve este parámetro?
+
+    - con format == 0 nos muestra el valor por pantalla del contedino en posicion de memoria ocupada por 
+    value, con format == 1 se formatean estos bytes, intendando covertir los bytes en caracteres y luego
+    pintarlos por pantalla, como estos son basura se muestran por pantalla caracteres random. Algunos de estos
+    caracteres se represntan con un signo de interrogación 
+
+    ./es2 1 3 > output:
+    �?� 
+    �\
+    �!k
+
+    ./es2 0 3 > output:
+    1811321625
+    438263139
+    166289792
+
+PREGUNTA 57. Explica el motivo de los resultados observados dependiendo del formato
+fichero de entrada.
+
+    - El programa formaatea la cadena de bytes pasandola a una cadena de caracteres ascii.
+    Por cada byte que lee le intenta asignar su correspondiente digito para pasar los bytes 
+    a la correspondiente cadena ascii que respresenta el número. 
+
+PREGUNTA 58. Explica las diferencias observadas entre la salida del programa es3 y es4. ¿Por
+qué la salida es inteligible para uno de los ficheros de entrada y no para el otro?
+
+    - En este caso caso no se formatean los bytes que se leen y se imprimen por consola tal cual se leen.
+    Por tanto cuando leemos los bytes del fichero de salida con caracteres basura y los imprimimos por consola
+    esta los interpreta como caracteres ascii y muestra caracteres basura, cosa que no pasa cuando leemos
+    los entereos del fichero con los enteros legibles.
+
+PREGUNTA 59. Escribe los valores que ha mostrado el script showCpuTime.sh para cada uno
+de los procesos y comenta las diferencias entre ellos en cuanto al consumo de cpu. ¿A qué se
+deben? Identifica las líneas de código de marcan la diferencia entre ellos.
+
+    CMD                         %CPU     TIME
+    ./es1                        0.0    00:00:00
+    ./es5                        100    00:00:32
+
+    ./es1                        0.0    00:00:00
+    ./es5                        100    00:00:34
+    
+    ./es1                        0.0    00:00:00
+    ./es5                        100    00:00:36
+    
+    ./es1                        0.0    00:00:00
+    ./es5                        100    00:00:38
+    
+    ./es1                        0.0    00:00:00
+    ./es5                        100    00:00:40
+    
+    ./es1                        0.0    00:00:00
+    ./es5                        100    00:00:42
+
+    las líneas de codigo que marcan la diferencia entre ellos son:
+    while (1);(linea 5 para es5.c) y ret = read(0, &c, sizeof(c)); (línea 31 para es1.c).
+    es5 ejecuta el bucle constantemente por tanto esta casi siempre en estado running y consume cpu;
+    el es1 sin embargo está en estado sleeping esperando a que el usuario introduzca datos por leer por consola.
+
+PREGUNTA 60. Anota en el fichero entrega.txt el resultado de ambas ejecuciones. Entrega el
+código programado en el fichero es6_v2.c
+
+    a) Ejecuta el programa y pulsa return para desbloquear el read:
+
+    __read__ correcto
+
+    b) A continuación ejecuta el programa pero mientras está esperando en el read
+    envíale el signal SIGINT pulsando ^C.
+    ^CSIGINT recibido!
+    __read__ interrumpido por signal
+
+
+
+PREGUNTA 61. ¿Qué pasaría si usáramos el flag SA_RESTART en el sigaction? Repite las
+ejecuciones anteriores activando el flag SA_RESTART y anota el resultado en el fichero
+entrega.txt.
+
+    a) Ejecuta el programa y pulsa return para desbloquear el read:
+
+    __read__ correcto
+
+    b) A continuación ejecuta el programa pero mientras está esperando en el read
+    envíale el signal SIGINT pulsando ^C.
+    ^CSIGINT recibido!
+    ^CSIGINT recibido!
+    ^CSIGINT recibido!
+    ^CSIGINT recibido!
+
+    __read__ correcto
+
+
+PREGUNTA 62. ¿Estaba ya en uso el major especificado en el código? En caso afirmativo, ¿qué
+driver lo estaba utilizando?
+
+    - Los major de ambos drivers eestaban en uso ya en el sistema.
+    Ocupados por los drivers.
+    249 -> dma_heap
+    250 -> dax
+
+PREGUNTA 63. Apunta la línea de la salida de lsmod correspondiente a myDriver1 y myDriver2.
+
+    - myDriver1              16384  0
+      myDriver2              16384  0
+
+PREGUNTA 64. Apunta la línea de comandos que has utilizado para crear el dispositivo.
+
+    - sudo mknod myDevice c 213 0
+
+PREGUNTA 65. Anota en el fichero “entrega.txt” el resultado de la ejecución y explica el
+resultado obtenido.
+
+    -................................................
+    Este programa escribe por la salida std todo lo que lee de la entrada std. Si no has redirigido la salida, 
+    lo que escribas en el teclado saldra por la pantalla
+    Para acabar CtrlD
+    ................................................
+    Driver 1 read operation
+    Sponsored by Laboratorios Gelocatas SL
+    fin ejecución
+
+    - myDevice es un fichero de caracteres. Con esta ejecución redireccionamos
+    la entrada estandar de ./es1 al fichero de caracteres. myDriver1 es un dispositivo
+    que copia una cadena de caracteres al user space, creamos un dispositivo nuevo
+    y se copia en el la cadena de caracteres indicada. Luego al crear el fichero myDevice
+    leemos de este utilizandolo como entrada estándar de ./es1.
+
+PREGUNTA 66. Anota el resultado de la ejecución. Explica el motivo de las diferencias
+observadas comparando la salida de este ejercicio con la de la apartado 5.
+
+    - ................................................
+    Este programa escribe por la salida std todo lo que lee de la entrada std. Si no has redirigido la salida, lo que escribas en el teclado saldra por la pantalla
+    Para acabar CtrlD
+    ................................................
+    DRIVER 2 READ OPERATION
+    SPONSORED BY LABORATORIOS GELOCATAS SL
+    fin ejecución
