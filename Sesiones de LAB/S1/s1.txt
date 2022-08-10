@@ -1,0 +1,1 @@
+Esta práctica la hice con el WSL (windows subsystem for Linux).

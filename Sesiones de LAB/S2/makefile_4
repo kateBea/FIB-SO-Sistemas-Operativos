@@ -1,0 +1,13 @@
+all:listaParametros numeros suma
+
+listaParametros: listaParametros.c
+	gcc -o listaParametros listaParametros.c
+
+numeros: numeros.c
+	gcc -o numeros numeros.c
+
+suma: suma.c mis_funciones.h mis_funciones.c
+	gcc -o suma suma.c
+
+clean:
+	rm listaParametros numeros

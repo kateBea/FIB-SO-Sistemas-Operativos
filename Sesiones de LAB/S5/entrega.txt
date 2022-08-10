@@ -1,0 +1,150 @@
+PREGUNTA 35. ¿Qué variables aparecen en la salida del nm de mem1_dynamic? 
+¿Qué dirección ocupa cada una? Indica a que región pertenece cada variable 
+según la salida del nm y el tipo de variable (local o global).
+
+    - @globalArray -> 0000000000004040 (B => .bss section/unitialized global variable)
+
+PREGUNTA 36. Para los dos ejecutables, compilado estático y dinámico, observa su tamaño, la 
+salida de los comandos nm y objdump ¿En qué se diferencian los dos ejecutables?
+
+    - mem1_dynamic (16 952 bytes) tiene menos tamaño que mem1_static (872 384 bytes). En el caso
+    de mem1_static no hay linkado dinámico y las shared libraries son incluidas en el fichero 
+    ejecutable cosa que no pasa con linkado dinámico. La lista de símbolos de mem1_static también
+    es mayor a diferencia de mem1_dynamic, incluye por ejemplo símbolos como la fucnión memcpy(), etc.
+
+PREGUNTA 37. Observa el contenido del fichero maps del /proc para cada proceso y apunta 
+para cada región la dirección inicial, dirección final y etiqueta asociada. ¿Qué diferencia hay 
+entre el maps de cada proceso?
+
+    - mem1_dynamic:
+
+    7fb5d3540000-7fb5d3562000 r--p 00000000 00:00 809                /usr/lib/x86_64-linux-gnu/libc-2.31.so
+    7fb5d3562000-7fb5d36da000 r-xp 00022000 00:00 809                /usr/lib/x86_64-linux-gnu/libc-2.31.so
+    7fb5d36da000-7fb5d3728000 r--p 0019a000 00:00 809                /usr/lib/x86_64-linux-gnu/libc-2.31.so
+    7fb5d3728000-7fb5d372c000 r--p 001e7000 00:00 809                /usr/lib/x86_64-linux-gnu/libc-2.31.so
+    7fb5d372c000-7fb5d372e000 rw-p 001eb000 00:00 809                /usr/lib/x86_64-linux-gnu/libc-2.31.so
+    7fb5d372e000-7fb5d3732000 rw-p 00000000 00:00 0
+    7fb5d3740000-7fb5d3741000 r--p 00000000 00:00 805                /usr/lib/x86_64-linux-gnu/ld-2.31.so
+    7fb5d3741000-7fb5d3763000 r-xp 00001000 00:00 805                /usr/lib/x86_64-linux-gnu/ld-2.31.so
+    7fb5d3763000-7fb5d3764000 r-xp 00023000 00:00 805                /usr/lib/x86_64-linux-gnu/ld-2.31.so
+    7fb5d3764000-7fb5d376b000 r--p 00024000 00:00 805                /usr/lib/x86_64-linux-gnu/ld-2.31.so
+    7fb5d376b000-7fb5d376c000 r--p 0002b000 00:00 805                /usr/lib/x86_64-linux-gnu/ld-2.31.so
+    7fb5d376d000-7fb5d376e000 r--p 0002c000 00:00 805                /usr/lib/x86_64-linux-gnu/ld-2.31.so
+    7fb5d376e000-7fb5d376f000 rw-p 0002d000 00:00 805                /usr/lib/x86_64-linux-gnu/ld-2.31.so
+    7fb5d376f000-7fb5d3772000 rw-p 00000000 00:00 0
+    7fb5d377b000-7fb5d377c000 r--p 00000000 00:00 149848             /mnt/c/Users/zanet/Desktop/Desktop/S5/S5/mem1_dynamic
+    7fb5d377c000-7fb5d377d000 r-xp 00001000 00:00 149848             /mnt/c/Users/zanet/Desktop/Desktop/S5/S5/mem1_dynamic
+    7fb5d377d000-7fb5d377e000 r--p 00002000 00:00 149848             /mnt/c/Users/zanet/Desktop/Desktop/S5/S5/mem1_dynamic
+    7fb5d377e000-7fb5d377f000 r--p 00002000 00:00 149848             /mnt/c/Users/zanet/Desktop/Desktop/S5/S5/mem1_dynamic
+    7fb5d377f000-7fb5d3780000 rw-p 00003000 00:00 149848             /mnt/c/Users/zanet/Desktop/Desktop/S5/S5/mem1_dynamic
+    7fb5d3780000-7fb5d3781000 rw-p 00000000 00:00 0
+    7fffd6e1e000-7fffd6e3f000 rw-p 00000000 00:00 0                  [heap]
+    7fffdd8fe000-7fffde0fe000 rw-p 00000000 00:00 0                  [stack]
+    7fffde7bd000-7fffde7be000 r-xp 00000000 00:00 0                  [vdso]
+
+    -   mem1_static:
+
+    00400000-00401000 r--p 00000000 00:00 149850                     /mnt/c/Users/zanet/Desktop/Desktop/S5/S5/mem1_static
+    00401000-00494000 r-xp 00001000 00:00 149850                     /mnt/c/Users/zanet/Desktop/Desktop/S5/S5/mem1_static
+    00494000-00495000 r-xp 00094000 00:00 149850                     /mnt/c/Users/zanet/Desktop/Desktop/S5/S5/mem1_static
+    00495000-004bb000 r--p 00095000 00:00 149850                     /mnt/c/Users/zanet/Desktop/Desktop/S5/S5/mem1_static
+    004bb000-004bc000 r--p 000bb000 00:00 149850                     /mnt/c/Users/zanet/Desktop/Desktop/S5/S5/mem1_static
+    004bd000-004c0000 r--p 000bc000 00:00 149850                     /mnt/c/Users/zanet/Desktop/Desktop/S5/S5/mem1_static
+    004c0000-004c3000 rw-p 000bf000 00:00 149850                     /mnt/c/Users/zanet/Desktop/Desktop/S5/S5/mem1_static
+    004c3000-004c5000 rw-p 00000000 00:00 0
+    01294000-012b7000 rw-p 00000000 00:00 0                          [heap]
+    7ffffdbfc000-7ffffe3fc000 rw-p 00000000 00:00 0                  [stack]
+    7ffffe582000-7ffffe583000 r-xp 00000000 00:00 0                  [vdso]
+
+    - las librarias *.so de la directorio lib no estan en ejecución para mem1_static, pero sí para mem1_dynamic, son
+    shared libraries que se cargan en memoria del programa en tiempo de ejecución.
+
+PREGUNTA 38. ¿A qué región de las descritas en el maps pertenece cada variable y cada zona 
+reservada con malloc? Apunta la dirección inicial, dirección final y el nombre de la región.
+
+    - malloc() reserva espacio en la región heap del proceso. Aquí se guarda el contenido de p
+    (la dirección en cuestión de p se guarda en stack ya que es variable local, esto es
+    facil de comprobar ya que con el comando "nm mem1_dynamic" p no aparece entre la lista de símbolos
+    de mem1_dynamic):
+    mem1_dynamic:   7fffd6e1e000 - 7fffd6e3f000     rw-p 00000000 00:00 0       [heap]
+    mem1_static:    01294000     - 012b7000         rw-p 00000000 00:00 0       [heap]
+
+    - la variable globalArray se guarda en la región data (.bss) (unitialized global variable):
+    mem1_dynamic:   7fb5d377f000 - 7fb5d3780000 rw-p 00003000 00:00 149848  /mnt/c/Users/zanet/Desktop/Desktop/S5/S5/mem1_dynamic
+    mem1_static:    004c0000     - 004c3000     rw-p 000bf000 00:00 149850  /mnt/c/Users/zanet/Desktop/Desktop/S5/S5/mem1_static
+
+    - las variables buff, niteracions, i, localArray, p se guardan en la pila, región stack porque son variables locales:
+    mem1_dynamic:   7fffdd8fe000 - 7fffde0fe000     rw-p 00000000 00:00 0       [stack]
+    mem1_static:    7ffffdbfc000 - 7ffffe3fc000     rw-p 00000000 00:00 0       [stack]
+
+PREGUNTA 39. Para cada ejecución apunta el número de mallocs hechos y la dirección inicial y 
+final del heap que muestra el fichero maps del /proc. ¿Cambia el tamaño según el parámetro 
+de entrada? ¿Por qué?
+
+    - ./mem1 3: tres llamadas a malloc().  135 168 bytes
+    7fffef1a8000-7fffef1c9000 rw-p 00000000 00:00 0     [heap]
+
+    - ./mem1 5: cinco llamadas a mmaloc().  135 168 bytes
+    7ffff5a1d000-7ffff5a3e000 rw-p 00000000 00:00 0     [heap]
+
+    - ./mem1 100: cien llamadas a malloc().  540 672 bytes
+    7fffc6e5a000-7fffc6ede000 rw-p 00000000 00:00 0     [heap]
+
+    - Cambia el tamaño del heap e función del parámetro del argv para reserva espacio acorde con
+    lo necesario, como el sistema de reserva de memoria no es por bytes, se reserva más
+    memoria de la necesaria. 
+
+    NOTA: en nuestro caso las páginas son de 132KB. Para parametros 3 y 5 necsitamos
+    3*4KB = 12KB < 132KB y 5*4KB = 20KB < 132KB. En el caso de 100, tenemos 100*4KB = 400KB > 3*132KB
+    pero < 4*132KB, por tanto necesitamos 4 páginas para la llamada on parametro 100 ya que 
+    100*4KB = 409 600 bytes < 132KB*4 = 504 672 bytes.
+
+PREGUNTA 40. ¿Cuál es el tamaño del heap en este caso? Explica los resultados.
+
+    - el tamaño del heap es de 135 168 bytes. El mismo valor que cuando el parámetro
+    es 3 o 5 para el apartado enterior. Hemos comprobado que el heap mide también 135 168 bytes cuando 
+    se hace solo una sola llamada a malloc(0) (malloc con parametro 0). La región del heap sin embargo 
+    no aparece en el comando fichero maps cuando no se hace ninguna llamada a malloc. El hecho de reservar
+    mas espacio de lo necesario es por como se organiza la memoria (por páginas), en este caso si queremos
+    reservar espacio necesario con parametro 3 o 5 el tamaño del heap es el mismo porque es lo minimo que puede asignar
+    para cada parametro con que hemos ejecutado el programa.
+
+    7fffe72dc000-7fffe72fd000 rw-p 00000000 00:00 0    [heap]
+
+PREGUNTA 41. Para cada ejecución apunta el número de sbrks hechos y la dirección inicial y 
+final del heap que se muestra en el maps del /proc. ¿Cambia el tamaño del heap respecto al 
+observado en la pregunta 6? ¿Por qué?
+
+    -./mem1_v3 3: tres llamadas a sbrk(). 12 288 bytes
+    7fffbd0ab000-7fffbd0ae000 rw-p 00000000 00:00 0     [heap]
+
+    -./mem1_v3 5: cinco llamadas a sbrk(). 20 480 bytes
+    7fffc3211000-7fffc3216000 rw-p 00000000 00:00 0     [heap]
+
+    -./mem1_v3 100: cien llamadas a sbrk(). 409 600 bytes
+    7fffd0d0b000-7fffd0d6f000 rw-p 00000000 00:00 0     [heap]
+
+    - Sí, el tamaño del heap cambia respecto lo observado en la pregunta 6, aquí agrandamos
+    el heap tanto como nos indique el parámetro, en todos estos caso tenemos que
+    el tamaño del heap es (parametro * REGION_SIZE) bytes donde REGION_SIZE vale 4KB.
+
+PREGUNTA 42.¿Qué error contiene el código del programa? ¿Por qué el programa no falla en 
+las primeras iteraciones? Propón una alternativa a este código que evite que se genere la 
+excepción, detectando, antes de que pase, que vamos a hacer un acceso fuera del espacio de direcciones.
+
+    - El program reserva espacio en región heap para un entero y accede, posiciones de memoria fuera de este 
+    rango hasta llegar a una regíon de memoria a la que no tiene permisos de lectura. El programa no falla 
+    las primera iteraciones porque malloc() reserva espacio a nivel de páginas por lo tanto el puntero
+    tendrá permisos de lectura en tanto bytes como grande sea la págine asignada por malloc(). Una solución
+    sencilla tal y como está el código ahora es usar sbrk() en vez de malloc() y evitar que el puntero lea 
+    de la posición p + 1. Nos queda entonces:
+
+    p = sbrk(sizeof(int)*MAX_SIZE);
+    int *start_point = p;
+    while (p < start_point+MAX_SIZE) {... ++p;}
+
+    Explicación: Reservamos MAX_SIZE*sizeof(int) bytes, tenemos acceso desde el puntero inicial que retorna sbrk() 
+    hasta has start_point+MAX_SIZE, es decir, nuestro rango de direcciones es [0, start_point+MAX_SIZE]. Cuando el puntero
+    sea igual a start_point*MAX_SIZE estaremos fuera de rango y no se entrara en el bucle para realizar ningún tipo de acceso.
+    Aquí podemos variar MAX_SIZE a nuestras necesidades (el caso del programa inicial seria con MAX_SIZE = 1).
+

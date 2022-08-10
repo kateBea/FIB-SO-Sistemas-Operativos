@@ -1,0 +1,10 @@
+all:listaParametros numeros
+
+listaParametros: listaParametros.c
+	gcc -o listaParametros listaParametros.c
+
+numeros: numeros.c
+	gcc -o numeros numeros.c
+
+clean:
+	rm listaParametros numeros

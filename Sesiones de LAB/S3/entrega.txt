@@ -1,0 +1,167 @@
+SESIÓN 3: Procesos
+
+PREGUNTA 18.¿Cómo puede saber un proceso el pid de sus hijos? ¿Qué llamada 
+pueden utilizar los procesos para consultar su propio PID?
+
+	- El PID del hijo de un proceso será el valor que retorne la llamada 
+	a sistema fork() si no hay error al realizarla. Para saber el PID
+	de un proceso usamos la función getpid().
+
+PREGUNTA 19.¿En qué casos se ejecutará cualquier código que aparezca justo 
+después de la llamada execlp (En cualquier caso/ En caso que el execlp
+se ejecute de forma correcta/ En caso que el exclp falle)?
+
+	- El código que viene después del execlp() se ejecuta únicamente si la
+	llamada a sistema execlp falla. En el caso de no fallar y ejecutarse 
+	correctamente la llamada, no se ejecutará cualquier código que aparezca 
+	justo después ella ya que eldel proceso habrá cambiado a otro ejecutable.
+
+PREGUNTA 20.¿Qué directorios hay dentro de /proc/PID_PADRE? ¿Qué opción de ls has usado?
+
+	- dentro de /proc/PID_PADRE:
+	total 0
+	dr-xr-xr-x  7 kate kate 0 Feb 25 11:20 .
+	dr-xr-xr-x 15 root root 0 Feb 25 04:10 ..
+	dr-x------  2 kate kate 0 Feb 25 11:20 attr
+	-r--------  1 kate kate 0 Feb 25 11:20 auxv
+	-r--r--r--  1 kate kate 0 Feb 25 11:20 cgroup
+	-r--r--r--  1 kate kate 0 Feb 25 11:20 cmdline
+	-rw-r--r--  1 kate kate 0 Feb 25 11:20 comm
+	lrwxrwxrwx  1 kate kate 0 Feb 25 11:20 cwd -> /mnt/c/Users/zanet/Documents/fib_ingenieria/Q3/SISTEMAS OPERATIUS/LAB/S3/S3
+	-r--------  1 kate kate 0 Feb 25 11:20 environ
+	lrwxrwxrwx  1 kate kate 0 Feb 25 11:20 exe -> /mnt/c/Users/zanet/Documents/fib_ingenieria/Q3/SISTEMAS OPERATIUS/LAB/S3/S3/myPS
+	dr-x------  2 kate kate 0 Feb 25 11:20 fd
+	-rw-r--r--  1 kate kate 0 Feb 25 11:20 gid_map
+	-r--r--r--  1 kate kate 0 Feb 25 11:20 limits
+	-r--r--r--  1 kate kate 0 Feb 25 11:20 maps
+	-r--r--r--  1 kate kate 0 Feb 25 11:20 mountinfo
+	-r--r--r--  1 kate kate 0 Feb 25 11:20 mounts
+	-r--------  1 kate kate 0 Feb 25 11:20 mountstats
+	dr-xr-xr-x  3 kate kate 0 Feb 25 11:20 net
+	dr-x--x--x  2 kate kate 0 Feb 25 11:20 ns
+	-rw-r--r--  1 kate kate 0 Feb 25 11:20 oom_adj
+	-rw-r--r--  1 kate kate 0 Feb 25 11:20 oom_score_adj
+	lrwxrwxrwx  1 kate kate 0 Feb 25 11:20 root -> /
+	-r--r--r--  1 kate kate 0 Feb 25 11:20 schedstat
+	-rw-r--r--  1 kate kate 0 Feb 25 11:20 setgroups
+	-r--r--r--  1 root root 0 Feb 25 11:20 smaps
+	-r--r--r--  1 kate kate 0 Feb 25 11:20 stat
+	-r--r--r--  1 kate kate 0 Feb 25 11:20 statm
+	-r--r--r--  1 kate kate 0 Feb 25 11:20 status
+	dr-xr-xr-x  3 kate kate 0 Feb 25 11:20 task
+	-rw-r--r--  1 kate kate 0 Feb 25 11:20 uid_map
+
+	He usado las opciones "-l" y "-a" del comando ls
+
+PREGUNTA 21.Para el proceso padre, apunta el contenido de los ficheros status y cmdline. 
+Compara el contenido del fichero environ con el resultado del comando env (fíjate por ejemplo 
+en la variable PATH y la variable PWD) ¿Qué relación hay? Busca en el contenido del fichero 
+status el estado en el que se encuentra el proceso y apúntalo en el fichero de respuestas. 
+Anota también el tiempo de CPU que ha consumido en modo usuario que puedes encontrarlo 
+en el fichero stat del proceso (verás que stat contiene una serie de números, consulta en el 
+manual el formato qué representa cada uno de esos números: man proc).
+
+	- apunta el contenido de los ficheros status y cmdline:
+
+	(status):
+
+	./myPS kate 
+
+	(cmdline):
+
+	Name:	myPS
+	State:	R (running)
+	Tgid:	613
+	Pid:	613
+	PPid:	9
+	TracerPid:	0
+	Uid:	1000	1000	1000	1000
+	Gid:	1000	1000	1000	1000
+	FDSize:	3
+	Groups:	
+	VmPeak:	0 kB
+	VmSize:	10404 kB
+	VmLck:	0 kB
+	VmHWM:	0 kB
+	VmRSS:	520 kB
+	VmData:	0 kB
+	VmStk:	0 kB
+	VmExe:	4 kB
+	VmLib:	0 kB
+	VmPTE:	0 kB
+	Threads:	1
+	SigQ:	0/0
+	SigPnd:	0000000000000000
+	ShdPnd:	0000000000000000
+	SigBlk:	0000000000000000
+	SigIgn:	0000000000000000
+	SigCgt:	0000000000000000
+	CapInh:	0000000000000000
+	CapPrm:	0000000000000000
+	CapEff:	0000000000000000
+	CapBnd:	0000001fffffffff
+	Cpus_allowed:	f
+	Cpus_allowed_list:	0-3
+	Mems_allowed:	1
+	Mems_allowed_list:	0
+	voluntary_ctxt_switches:	150
+	nonvoluntary_ctxt_switches:	545
+
+	Compara el contenido del fichero environ con el resultado del comando env 
+	(fíjate por ejemplo  en la variable PATH y la variable PWD) ¿Qué relación hay?
+
+		- PWD de environt incluye el nombre del del ejecutable en cuestión
+		Nuestro programa se encuntra en estado R (Running).
+
+		Del man /proc/PID/stat:
+		(14) utime  %lu: Amount of time that this process has been scheduled  
+		in  user mode, measured  in  clock  ticks  (divide  by sysconf(_SC_CLK_TCK)). 
+		This includes guest time, guest_time (time spent running a virtual CPU, 
+		see below), so that applications that are not aware of the guest time field
+		do not lose that time from their calculations.
+
+		Es decir el campo número (14) representa el tiempo de CPU usado por el proceso
+		en USER_MODE. En nuestro caso es 261117 clock ticks.
+
+PREGUNTA 22.En el caso del proceso hijo, ¿a qué ficheros “apuntan” los ficheros cwd y exe? 
+¿Cuál crees que es el significado de cwd y exe?
+
+	- cwd es el directorio de trabajo actual del proceso en cuestión y exe contiene la dirección
+	del ejecutable del proceso. 
+
+	En el proceso hijo:
+	cwd -> ' ' (está vacío)
+	exe -> /usr/bin/ps
+
+PREGUNTA 23.En el caso del proceso hijo, ¿puedes mostrar el contenido de los ficheros 
+environ, status y cmdline del proceso hijo? ¿En qué estado se encuentra?
+
+	- Sólo puedo ver contenido en el fichero status que me indica que el proceso
+	hijo está en estado zombie ("State:  Z (zombie)").
+
+PREGUNTA 24.En el caso del proceso hijo, ¿a qué ficheros “apuntan” los ficheros cwd y exe? 
+¿Cuál crees que es el significado de cwd y exe? ¿Qué diferencias hay con la versión anterior? 
+¿A qué se deben?
+
+	- cwd y exe hijo:
+	cwd -> '/mnt/c/Users/zanet/Documents/fib_ingenieria/Q3/SISTEMAS OPERATIUS/LAB/S3/S3'
+	exe -> '/mnt/c/Users/zanet/Documents/fib_ingenieria/Q3/SISTEMAS OPERATIUS/LAB/S3/S3/myPS_v0'
+
+
+PREGUNTA 25.En el caso del proceso hijo, ¿puedes mostrar el contenido de los ficheros 
+environ, status y cmdline del proceso hijo? ¿En qué estado se encuentra? ¿Qué diferencias hay 
+con la versión anterior? ¿A qué se deben?
+
+	- En este caso sí que puedo mostrar el contenido de todos los ficheros del proceso
+	hijo, esto es, environ, status y cmdline. Su estado es: R (running). En el caso anterior
+	el hijo estaba en stado Z (zombie), había acabado ya su ejecución, pero no se liberaba
+	de memoria hasta que se acababa el padre.
+
+PREGUNTA 26.Comprueba el fichero status de /proc/PID_PADRE. ¿En qué estado está el proceso padre?
+
+	- State:  S (sleeping)
+
+PREGUNTA 27.¿Qué has hecho para guardar la salida de las ejecuciones de myPS3?
+
+	- Para guardar la salida de las ejecuciones de myPS3, he redirecccionado 
+	la salida del programa a un fichero con el caracter ">" desde la consola.

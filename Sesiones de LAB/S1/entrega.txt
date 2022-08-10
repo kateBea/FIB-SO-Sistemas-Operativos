@@ -1,0 +1,100 @@
+SESIÓN 1: El intérprete de comandos: Shell
+
+PREGUNTA 1. ¿Qué comandos habéis utilizado para crear los directorios S1..S5?
+	- He usa el comando "mkdir"
+
+PREGUNTA 2. ¿Qué comando utilizas para listar el contenido de un directorio? ¿Qué opción 
+hay que añadir para ver los ficheros ocultos?
+	- Para listar el contenido de un directorio utilizo el comando "ls" y para ver 
+	los directorios ocultos "." y ".." utilizo el parámetro "-a", es decir, "ls -a"
+
+PREGUNTA 3. ¿Qué opción hay que añadir a ls para ver información extendida de los ficheros? 
+¿Qué campos se ven por defecto con esa opción? (si no encuentras la información en el man 
+pregunta a tu profesor)
+	- Para ver la información extendida de los ficheros hay que añadir el parámetro u opción
+	"-l" (use long list format) al comando "ls", es decir, "ls -l". Los campos que se ven por defecto
+	con la opción "-l" son: 
+		campo 1: permisos del fichero
+		campo 2: número de enlaces o links
+		campo 3: el owner o propietario del fichero
+		campo 4: el grupo al cual pertenece el fichero 
+		campo 5: tamaño en Bytes del fichero
+		campo 6: útlima fecha de modificación del fichero
+		campo 7: nombre del fichero en cuestión
+
+		-> el output al ejecutar "ls -l" en mi caso ha sido, en la dirección
+		/mnt/c/Users/zanet/Documents/fib_ingenieria/Q3/SISTEMAS OPERATIUS/LAB/S1/S1:
+
+		total 0
+		drwxrwxrwx 1 kate kate 512 Feb 15 15:13 .
+		drwxrwxrwx 1 kate kate 512 Feb 15 20:32 ..
+
+PREGUNTA 4. ¿Qué opciones de menú has activado para extender la información que muestra el File Browser?
+	- En File Preferences, List Columns, he activado las opciones: Syze, Modified, Name (por defecto), 
+	Owner, Group, Permissions.
+
+PREGUNTA 5. ¿Qué secuencia de comandos has ejecutado para borrar un directorio, comprobar que no 
+está y volver a crearlo?
+	- La secuencia de comandos ha sido:
+		rm -r S2
+		ls -la
+		mkdir S2
+
+PREGUNTA 6. ¿Qué diferencia hay entre el comando cat y less?
+	- cat concatena fichero y los imprime al canal de salida, less sin embargo emprime
+	el principio una cantidad determinada de lines de un fichero por el canal de salida
+	y el usuario puede hacer que se vallan imprimiendo más líneas mientras se ejecuta el comando
+
+PREGUNTA 7. ¿Para qué sirve la opción -i del comando cp? ¿Cuál es la orden para hacer un 
+alias del comando cp que incluya la opción -i?
+	- La opción -i de "interactive" avisa al usuario al hacer la copia de un archivo (si el 
+	directorio destino contiene fichero con mismo nombre) antes de sobreescribir el fichero destino.
+	La orden para hacer un alias del comando cp con la opción -i es #alias cp="cp -i"
+
+PREGUNTA 8. ¿Qué hace la opción -i del comando rm? ¿Y la opción -i del mv? Escribe la orden 
+para hacer un alias del comando rm que incluya la opción -i.
+	- La opción "-i" del comando rm avisa al usuario antes de elimar un fichero o directorio, 
+	y la opción "-i" del comando mv avisa al usuario antes de sobrescribir el fichero destino 
+	si coincide en nombre con al fichero origen. La orden para hacer un alias del comando rm que contenga
+	la opción "-i" es #alias rm="rm -i"
+
+PREGUNTA 9. ¿Qué opciones de chmod has utilizado para dejar solamente los permisos de 
+escritura? ¿Qué resultado ha devuelvo cat al intentar ver el fichero test? ¿Qué opciones de 
+chmod has utilizado para dejar solamente los permisos de lectura? ¿Has conseguido borrarlo?
+	- Para dejar solamente los permisis de escritura he usado las opciones "-rx". El cat no 
+	puede acceder al fichero porque no hay permisos de lectura. Para sólo dejar los permisos 
+	de lectura he usado las opciones "-wx", y  no se puede borrar ya que el fichero es read-only
+
+PREGUNTA 10. ¿Cuál es el significado de las variables de entorno PATH, HOME y PWD?
+	- PWD guarda la dirección en la que nos encontramos actualmente en la terminal. HOME es
+	el directorio raiz del usuario actual y PATH es un una variable que contiene los directorios
+	de las variables de entorno
+
+PREGUNTA 11.La variable PATH es una lista de directorios, ¿Qué carácter hace de separador 
+entre un directorio y otro?
+	- El caracter que hace de separador entre directorios de la variable PATH es ":"
+
+PREGUNTA 12.¿Qué comando has usado para definir y consultar el valor de las nuevas variables que has definido?
+	- El comando que he usado para definir una nueva variable es el comando "export" y para consultar
+	su valor uso el comando echo acompañando el nombre de la variable con el carácter "$"
+
+PREGUNTA 13.¿Qué versión del ls se ha ejecutado?: El ls del sistema o el que te acabas de 
+descargar? Ejecuta el comando “which ls” para comprobarlo.
+	- El ls que se ha ejecutado es el del directorio actual, que muestra por pantalla el texto 
+	"Hola...soy el falso ls". Al ejecutar "which ls", no muestra "./ls", que es el falso ls, es decir,
+	el del directorio actual
+
+PREGUNTA 14.¿El directorio en el que estás, está definido en la variable PATH? ¿Qué implica esto?
+	- El directorio actual está definido en la variable PATH, esto implica que al ejecutar un comando
+	o programa y esté se encuentra en el directorio actual se va a ejecutar el del directorio actual (el directorio ".")
+
+PREGUNTA 15.¿Qué binario ls se ha ejecutado en cada caso de los anteriores: El ls del sistema o el que te 
+acabas de descargar? Ejecuta el comando “which ls” para comprobarlo.
+	- Al redefinir la variable de entorno PATH como PATH=$PATH:. el comando la que se ejecuta es el del sistema
+	("which ls" en este caso me imrpime /usr/bin/ls). Al redefinir la variable de entorno PATH como .:PATH=$PATH, el 
+	la que se ejecuta es el de el directorio actual si hay uno ("which ls" en este caso me imrpime ./ls que
+	es el falso comando ls)
+
+PREGUNTA 16.¿Qué diferencia hay entre utilizar > y >>?
+	- ">" borra el contenido actual del canal de salida y guarda en el contenido que ha leído
+	">>" sin embargo no vacía el fichero destino sino que escribo los datos que ha leído al final el fichero

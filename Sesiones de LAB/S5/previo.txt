@@ -1,0 +1,143 @@
+1. Apunta en el fichero "previo.txt" la dirección asignada a cada una de las variables 
+del programa. Busca en el man (y apunta en previo.txt) los tipos de símbolos que nos muestra nm.
+
+    @j       -> 0000000000004040 (B => uninitialized globar var)
+    @main    -> 00000000000011ec (T => code section)
+    @suma    -> 00000000000011c9 (T => code section)
+
+    Tipos de símbolos que muestra nm:
+
+        "A": The symbol's value is absolute, and will not be changed by further linking.
+
+        "B" or "b":  The symbol is in the BSS data section.  This section typically contains zero-initialized or
+        uninitialized data, although the exact behavior is system dependent.
+
+        "C": The symbol is common.  Common symbols are uninitialized data.  When linking, multiple common symbols
+        may appear with the same name.  If the symbol is defined anywhere, the common symbols are treated as
+        undefined references.
+
+        "D" or "d": The symbol is in the initialized data section.
+
+        "G" or "g": The symbol is in an initialized data section for small objects.  Some object file formats permit more
+        efficient access to small data objects, such as a global int variable as opposed to a large global
+        array.
+
+        "i": For PE format files this indicates that the symbol is in a section specific to the implementation of
+        DLLs.  For ELF format files this indicates that the symbol is an indirect function.  This is a GNU
+        extension to the standard set of ELF symbol types.  It indicates a symbol which if referenced by a
+        relocation does not evaluate to its address, but instead must be invoked at runtime.  The runtime
+        execution will then return the value to be used in the relocation.
+
+        "I": The symbol is an indirect reference to another symbol.
+
+        "N": The symbol is a debugging symbol.
+
+        "n": The symbol is in the read-only data section.
+
+        "p": The symbol is in a stack unwind section.
+
+        "R" or "r": The symbol is in a read only data section.
+
+        "S" or "s": The symbol is in an uninitialized or zero-initialized data section for small objects.
+
+        "T" or "t": The symbol is in the text (code) section.
+
+        "U": The symbol is undefined.
+
+        "u": The symbol is a unique global symbol.  This is a GNU extension to the standard set of ELF symbol
+        bindings.  For such a symbol the dynamic linker will make sure that in the entire process there is
+        just one symbol with this name and type in use.
+
+        "V" or "v": The symbol is a weak object.  When a weak defined symbol is linked with a normal defined symbol, the
+        normal defined symbol is used with no error.  When a weak undefined symbol is linked and the symbol is
+        not defined, the value of the weak symbol becomes zero with no error.  On some systems, uppercase
+        indicates that a default value has been specified.
+
+        "W" or "w": The symbol is a weak symbol that has not been specifically tagged as a weak object symbol.  When a
+        weak defined symbol is linked with a normal defined symbol, the normal defined symbol is used with no
+        error.  When a weak undefined symbol is linked and the symbol is not defined, the value of the symbol
+        is determined in a system-specific manner without error.  On some systems, uppercase indicates that a
+        default value has been specified.
+
+        "-": The symbol is a stabs symbol in an a.out object file.  In this case, the next values printed are the
+        stabs other field, the stabs desc field, and the stab type.  Stabs symbols are used to hold debugging
+        information.
+
+        "?": The symbol type is unknown, or object file format specific.
+
+
+2. ¿Es posible saber la dirección de las variables "i" y "s" con el comando nm? ¿Por qué? 
+¿En qué zona de memoria están reservadas estas variables?
+
+    - Estas variables estan reservadas en la section .stack del programa, no es posible saber
+    su dirección. El comando nm sólo nos muestra variables globlales o funciones como son suma, main or atoi. 
+
+3. Utiliza el comando gcc para compilar el fichero mem1_previo.c enlazándolo con librerías estáticas. 
+Indica en el fichero "previo.txt" qué comando has utilizado.
+
+    - gcc -o mem1_previo -static mem1_previo.c (linkado con librerias estáticas)
+
+4. Anota en el fichero previo.txt el tamaño total de la region de heap y datos para los siguientes números de
+elementos del vector: 10 y 40000. La región del heap esta etiquetada como [heap] pero la región de datos 
+está etiquetada con el nombre del ejecutable. Deberás deducir cual es (hay varias) por los permisos de la región. 
+¿Existe alguna diferencia entre los distintos valores de las ejecuciones de ambos programas?
+
+    - comando para encontrar información sobre convenciones en ficheros y directorios: "man 5 proc"
+    /proc/[pid]/maps:
+
+    A  file  containing  the currently mapped memory regions and their access permissions.  See mmap(2) for
+    some further information about memory mappings. The format file is, e.g.:
+
+    address           perms offset  dev   inode       pathname
+    00400000-00452000 r-xp 00000000 08:02 173521      /usr/bin/dbus-daemon
+    00651000-00652000 r--p 00051000 08:02 173521      /usr/bin/dbus-daemon
+    00652000-00655000 rw-p 00052000 08:02 173521      /usr/bin/dbus-daemon
+    00e03000-00e24000 rw-p 00000000 00:00 0           [heap]
+    00e24000-011f7000 rw-p 00000000 00:00 0           [heap]
+    ...
+    f2c6ff8c000-7f2c7078c000 rw-p 00000000 00:00 0    [stack:986]
+    ...
+    7fffb2c0d000-7fffb2c2e000 rw-p 00000000 00:00 0   [stack]
+    7fffb2d48000-7fffb2d49000 r-xp 00000000 00:00 0   [vdso]
+
+    - Solución:
+
+    mem2_previo_v2 (sección heap) -> 10 elementos. tamaño = 307 200 bytes
+    018f6000-01941000 rw-p 00000000 00:00 0 [heap]
+
+    mem2_previo_v2 (sección heap) -> 40000 elementos. tamaño = 307 200 bytes
+    01457000-014a2000 rw-p 00000000 00:00 0 [heap]
+
+    mem2_previo_v2 (sección data) -> 10 elementos. tamaño = 12 288 bytes
+    004c1000-004c4000 rw-p 000c0000 00:00 1308863   /mnt/c/Users/zanet/Desktop/Desktop/S5/S5/mem2_previo_v2
+
+    mem2_previo_v2 (sección data) -> 40000 elementos. tamaño = 12 288 bytes
+    004c1000-004c4000 rw-p 000c0000 00:00 1308863   /mnt/c/Users/zanet/Desktop/Desktop/S5/S5/mem2_previo_v2
+
+    -------------------------------------------------------------------------------------------------------
+
+    mem2_previo (sección heap) -> 10 elementos. tamaño = 143 360 bytes
+    00919000-0093c000 rw-p 00000000 00:00 0 [heap]
+
+    mem2_previo (sección heap) -> 40000 elementos. tamaño = 143 360 bytes
+    00a21000-00a44000 rw-p 00000000 00:00 0 [heap]
+
+    mem2_previo (sección data) -> 10 elementos. tamaño = 143 360 bytes
+    004c1000-004c4000 rw-p 000c0000 00:00 1308858 /mnt/c/Users/zanet/Desktop/Desktop/S5/S5/mem2_previo
+
+    mem2_previo (sección data) -> 40000 elementos. tamaño = 143 360 bytes
+    004c1000-004c4000 rw-p 000c0000 00:00 1308858 /mnt/c/Users/zanet/Desktop/Desktop/S5/S5/mem2_previo
+
+    La sección heap varia para mem2_previo_v2 porque solicitamos memoria heap en tiempo de ejecución, en mem2_previo
+    sin embargo no solicitamos memoria heap en tiempo de ejecución y el espacio del vector se reserva en el espacio data.
+
+5. El fichero mem3_previo.c contiene un código que tiene un error en el uso de un puntero.
+Ejecuta el programa y comprueba qué error aparece.
+
+    - Solución: 
+    el error es de referencia de memoria inválida. El texto mostrado
+    por pantalla es:
+
+    Addresses:
+        p: 0x7fc5be8a4018
+    Segmentation fault (core dumped)

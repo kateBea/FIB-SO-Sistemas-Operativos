@@ -1,0 +1,22 @@
+SESIÓN 2: El lenguaje C
+
+¿Qué valores contienen argc y el vector argv en cada uno de los ejemplos? Fíjate, que 
+aunque pasemos números como parámetro, los programas los reciben SIEMPRE como una cadena de caracteres.
+
+	Ejemplo 1: #./listaParametros 
+	Ejemplo 2: #./listaParametros a 
+	Ejemplo 3: #./listaParametros a b 
+	Ejemplo 4: #./listaParametros a b c 
+	Ejemplo 5: #./listaParametros 1 2 3 4 5 6 7
+
+	Ejemplo 1: argc = 1, argv = {listaParametros}
+	Ejemplo 2: argc = 2, argv = {listaParametros, a}
+	Ejemplo 3: argc = 3, argv = {listaParametros, a, b}
+	Ejemplo 4: argc = 4, argv = {listaParametros, a, b, c}
+	Ejemplo 5: argc = 8, argv = {listaParametros, 1, 2, 3, 4, 5, 6, 7}
+
+PREGUNTA 17.¿Qué opción has tenido que añadir al gcc para generar el fichero objecto? ¿Qué 
+opción has tenido que añadir al gcc para que el compilador encuentre el fichero mis_funciones.h?
+
+	- La opción que hemos añadido para generar el fichero objecto es "-c", es decir, #gcc -c mis_funciones.c.
+	Para que el compilador encuentre el fichero mis_funciones.h hemos añadido la opción "-I".

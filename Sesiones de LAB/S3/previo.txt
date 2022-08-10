@@ -1,0 +1,145 @@
+SESIÓN 3: Procesos
+
+Ejecuta ejemplo_fork1: Escribe en el fichero previo.txt los mensajes que aparecen en 
+pantalla y explica  qué proceso muestra cada uno (padre o hijo) y por qué.
+
+	- El proceso padre muestra por pantalla "Soy el proceso 412" y el proceso hijo
+	muestra "Soy el proceso 413". Esto pasa porque al crear un proceso nuevo el SO
+	asigna un entero identificador que no esté en uso en la sesión actual al proceso creado.
+
+Ejecuta ejemplo_fork2: Escribe en el fichero previo.txt los mensajes que aparecen 
+en pantalla y explica qué proceso muestra cada uno (padre o hijo) y por qué.
+
+	- Proceso padre:
+	Antes del fork: Soy el proceso 471
+	PADRE: Soy el proceso 471
+	Los DOS: Soy el proceso 471
+
+	  Proceso hijo:
+	HIJO: Soy el proceso 472
+	Los DOS: Soy el proceso 472
+
+	El hijo sólo ejecuta el bloque del switch() donde pid == 0 ya que el valor
+	de retorno de fork() es 0 en el hijo y es el PID del hijo en el proceso padre, resto
+	del bloque del main() después del switch() lo ejecutan los dos procesos.
+	El case -1 del switch() lo ejecutaría el padre únicamente ya que no habría proceso hijo en este caso.
+
+Ejecuta ejemplo_fork3: Escribe en el fichero previo.txt los mensajes que aparecen
+en pantalla y explica qué proceso muestra cada uno (padre o hijo) y por qué.
+
+	- Proceso padre:
+	Antes del fork: Soy el proceso 492
+	PADRE: Soy el proceso 492
+	Solo lo ejecuta el padre: Soy el proceso 492
+
+	  Proceso hijo:
+	HIJO: Soy el proceso 493
+
+	El hijo sólo ejecuta el bloque del switch() donde pid == 0 ya que el valor
+	de retorno del fork() es 0 en el hijo y es el PID del hijo en el proceso padre, resto
+	del bloque del main() después del switch() lo ejecutan SÓLO el padre porque el hijo
+	termina su ejecución de manera voluntaria mediante la llamada exit(0).
+	El case -1 del switch() lo ejecutaría el padre únicamente ya que no habría proceso hijo en este caso.
+
+Ejecuta ejemplo_fork4: ¿En qué orden aparecen en pantalla los mensajes? 
+¿Qué proceso acaba antes la ejecución? 
+	- Proceso padre:
+	Antes del fork: Soy el proceso 494
+	PADRE: Soy el proceso 494
+	Solo lo ejecuta el padre: Soy el proceso 494
+
+
+	  Proceso hijo:
+	HIJO: Soy el proceso 495
+	HIJO acaba: Soy el proceso 495
+
+	El proceso padre acaba antes.
+
+Ejecuta ejemplo_fork5: Escribe en el fichero previo.txt los mensajes que aparecen
+en pantalla y explica qué proceso muestra cada uno (padre o hijo) y por qué.
+
+	- Proceso padre:
+	Antes del fork: Soy el proceso 83
+	PADRE: Soy el proceso 83
+	PADRE:La variable_global vale A y la local a
+	Solo lo ejecuta el padre: Soy el proceso 83
+
+
+	Proceso hijo:
+	HIJO: Soy el proceso 84
+	HIJO:La variable_global vale A y la local a
+
+Ejecuta ejemplo_fork6, redireccionando su salida estándar a un fichero. Describe 
+el contenido del fichero de salida ¿Podemos asegurar que si ejecutamos varias 
+veces este programa el contenido del fichero salida será exactamente el mismo? ¿Por qué?
+
+	- Si ejecutamos este programa varias veces redireccionando la salida a un fichero,
+	el contenido de este fichero no será el mismo porque al crearse el hijo los dos procesos 
+	se ejecutan independientemente el uno del otro, esta a decisión del SO quién ocupa CPU.
+
+Ejecuta ejemplo_fork7: ¿Por qué no compila el programa ejemplo_fork7.c? ¿Tiene algo 
+que ver con el hecho de crear procesos? ¿Cómo se puede modificar el código para que
+escriba el valor de la “variable_local”?
+
+	- El programa no compila porque estamos usando en la función Escribe_variables() una
+	variable que no se ha declarado dentro de ella (o está fuera del ámbito de visibilidad
+	de la función y no es visible dentro de esta), el error no tiene nada que ver con 
+	con el hecho de crear procesos. Para solucionar esto una posibilidad es pasar "variable_local"
+	como parámetro a nuestra función Escribe_variables().
+
+Ejecuta ejemplo_exec1: Describe el comportamiento de este programa. ¿Qué ves en pantalla? 
+¿Cuántas veces aparece en pantalla el mensaje con el pid del proceso? ¿A qué se debe?
+
+	- En el mensaje en panatalla aparece el PID del proceso una vez.
+	El contenido escrito en pantalla es:
+
+	Soy el proceso: 267
+	total 6408
+	-rwxrwxrwx 1 kate kate     896 Feb 25 02:08 Makefile
+	-rwxrwxrwx 1 kate kate     791 Feb  8  2021 Makefile.ejemplos
+	-rwxrwxrwx 1 kate kate     615 Feb  8  2021 README_S3
+	-rwxrwxrwx 1 kate kate   16928 Feb 25 02:00 ejemplo_exec1
+	-rwxrwxrwx 1 kate kate     320 Feb 25 02:09 ejemplo_exec1.c
+	-rwxrwxrwx 1 kate kate   16928 Feb 25 02:00 ejemplo_exec2
+	-rwxrwxrwx 1 kate kate     332 Feb  8  2021 ejemplo_exec2.c
+	-rwxrwxrwx 1 kate kate   16928 Feb 25 02:06 ejemplo_fork1
+	-rwxrwxrwx 1 kate kate     308 Feb 25 02:07 ejemplo_fork1.c
+	-rwxrwxrwx 1 kate kate   16928 Feb 25 02:06 ejemplo_fork2
+	-rwxrwxrwx 1 kate kate    1101 Feb 25 02:07 ejemplo_fork2.c
+	-rwxrwxrwx 1 kate kate   16968 Feb 25 02:06 ejemplo_fork3
+	-rwxrwxrwx 1 kate kate    1187 Feb 25 02:07 ejemplo_fork3.c
+	-rwxrwxrwx 1 kate kate   17016 Feb 25 02:06 ejemplo_fork4
+	-rwxrwxrwx 1 kate kate    1529 Feb 25 02:07 ejemplo_fork4.c
+	-rwxrwxrwx 1 kate kate   17056 Feb 25 02:06 ejemplo_fork5
+	-rwxrwxrwx 1 kate kate    1840 Feb 25 02:05 ejemplo_fork5.c
+	-rwxrwxrwx 1 kate kate   17040 Feb 25 02:06 ejemplo_fork6
+	-rwxrwxrwx 1 kate kate    2121 Feb 25 02:04 ejemplo_fork6.c
+	-rwxrwxrwx 1 kate kate   17056 Feb 25 02:06 ejemplo_fork7
+	-rwxrwxrwx 1 kate kate    1647 Feb 25 02:03 ejemplo_fork7.c
+	-rwxrwxrwx 1 kate kate    8581 Feb  8  2021 listaParametros
+	-rwxrwxrwx 1 kate kate   17656 Feb 19 08:23 out
+	-rwxrwxrwx 1 kate kate 6300131 Feb 25 01:40 output_ejemplo_fork6
+	-rwxrwxrwx 1 kate kate    4052 Feb 25 02:00 previo.txt
+
+	El mensaje aparece una vez porque después de la llamada a execlp()
+	de un proceso, si la llamada no da ningún error el binario del programa
+	pasa a ser otro, por lo tanto todo lo que haya a continuación de la
+	llamada execlp() en el proceso que la invoca no se ejecutará.
+
+Ejecuta ejemplo_exec2: Describe el comportamiento de este código. 
+¿Qué mensajes aparecen en pantalla? ¿Cuántos procesos se ejecutan?
+
+	- Mensajes por pantalla:
+	Soy el proceso: 299
+	Soy el proceso 299
+	Soy el proceso 300
+
+	Hay 2 procesos, el primero es el 299 que cambia de binario para ejecutar 
+	ejemplo_fork1 y el segundo es el que se crea dentro de ejemplo_fork1.
+
+Consulta en el man: ¿a qué sección pertenecen las páginas del man que habéis consultado? 
+Además, apunta aquí si se ha consultado alguna página adicional del manual a las que se 
+han pedido explícitamente.
+
+	- Las secciones que se han consultado han sido la 2 de Llamadas a Sistema 
+	(servicios de kernel) y la sección 3 de Funciones de Librería.
