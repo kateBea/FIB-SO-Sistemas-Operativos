@@ -9,7 +9,7 @@
 #define STDOUT  1
 #define STDIN   0
 #define STERR   2
-#define RW_______ 0600
+#define RW_______ 0600  // RW- --- --- (user, group, others)
 
 /*print str to std error and exit program*/
 void error_and_exit(const char* str, int ex_code)
@@ -22,5 +22,6 @@ int main(void)
     int fileHandle = creat("salida.txt", S_IWUSR | S_IRUSR);
     if (fileHandle < 0) error_and_exit("__creat__ error syscall", -1);
     write(fileHandle, "ABCD", 4);
+    
     return EXIT_SUCCESS;
 }
