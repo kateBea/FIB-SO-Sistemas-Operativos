@@ -9,9 +9,7 @@
 #define STDOUT  1
 #define STDIN   0
 #define STERR   2
-#define RW_______ 0600  // RW- --- --- (user, group, others)
 
-/*print str to std error and exit program*/
 void error_and_exit(const char* str, int ex_code)
 {
     perror(str); exit(ex_code);
